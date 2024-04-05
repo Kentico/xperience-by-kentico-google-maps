@@ -46,7 +46,7 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
             string value = GetValue();
 
             var addressValidator = new AddressValidator();
-            bool addressValidatorResult = addressValidator.IsValid(value);
+            bool addressValidatorResult = addressValidator.IsValid(value).GetAwaiter().GetResult();
 
             if (!string.IsNullOrWhiteSpace(value) && addressValidatorResult)
             {
