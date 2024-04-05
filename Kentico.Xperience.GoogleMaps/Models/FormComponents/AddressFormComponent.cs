@@ -15,7 +15,16 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
     /// </summary>
     public class AddressFormComponent : FormComponent<AddressFormComponentProperties, string>
     {
+        private readonly IAddressValidator addressValidator;
+
+
         public const string IDENTIFIER = "AddressFormComponent";
+
+
+        public AddressFormComponent(IAddressValidator addressValidator)
+        {
+            this.addressValidator = addressValidator;
+        }
 
 
         /// <summary>
@@ -28,13 +37,19 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
         /// <summary>
         /// Gets the <see cref="Value"/>.
         /// </summary>
-        public override string GetValue() => Value;
+        public override string GetValue()
+        {
+            return Value;
+        }
 
 
         /// <summary>
         /// Sets the <see cref="Value"/>.
         /// </summary>
-        public override void SetValue(string value) => Value = value;
+        public override void SetValue(string value)
+        {
+            Value = value;
+        }
 
 
         /// <inheritdoc/>
@@ -45,7 +60,6 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
 
             string value = GetValue();
 
-            var addressValidator = new AddressValidator();
             bool addressValidatorResult = addressValidator.IsValid(value).GetAwaiter().GetResult();
 
             if (!string.IsNullOrWhiteSpace(value) && addressValidatorResult)
