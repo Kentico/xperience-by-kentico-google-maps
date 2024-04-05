@@ -4,6 +4,9 @@ using Kentico.Xperience.Admin.Base.FormAnnotations;
 
 namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
 {
+    /// <summary>
+    /// Represents properties of a <see cref="AddressFormComponent"/>.
+    /// </summary>
     public class AddressFormComponentProperties : FormComponentProperties<string>
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextInputProperties"/> class.
+        /// Initializes a new instance of the <see cref="AddressFormComponentProperties"/> class.
         /// </summary>
         /// <remarks>
         /// The constructor initializes the base class to data type <see cref="FieldDataType.Text"/> and size 500.
