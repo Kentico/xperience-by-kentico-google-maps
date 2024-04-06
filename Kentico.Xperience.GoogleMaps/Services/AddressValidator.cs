@@ -26,7 +26,7 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = false)
+        public async Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = true)
         {
             if (string.IsNullOrWhiteSpace(value))
             {

@@ -116,7 +116,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     })
                 });
 
-                var result = await addressValidator.Validate(COMPANY_NAME, "US", true);
+                var result = await addressValidator.Validate(COMPANY_NAME);
 
                 Assert.Multiple(() =>
                 {
@@ -152,7 +152,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     })
                 });
 
-                var result = await addressValidator.Validate(COMPANY_NAME);
+                var result = await addressValidator.Validate(COMPANY_NAME, "US", false);
 
                 Assert.Multiple(() =>
                 {
