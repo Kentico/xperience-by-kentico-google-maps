@@ -2,7 +2,7 @@
 using Kentico.Forms.Web.Mvc;
 using Kentico.Xperience.Admin.Base.FormAnnotations;
 
-namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
+namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents properties of a <see cref="AddressFormComponent"/>.

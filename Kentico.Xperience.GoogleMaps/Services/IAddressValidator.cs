@@ -1,6 +1,4 @@
-﻿using Kentico.Xperience.GoogleMaps.Models.AddressValidation;
-
-namespace Kentico.Xperience.GoogleMaps.Services
+﻿namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Validates addresses.
@@ -12,6 +10,6 @@ namespace Kentico.Xperience.GoogleMaps.Services
         /// </summary>
         /// <param name="value">The address to validate.</param>
         /// <returns>True if the address is valid, otherwise false.</returns>
-        Task<AddressValidationResult> Validate(string value);
+        Task<AddressValidatorResult> Validate(string value);
     }
 }

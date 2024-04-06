@@ -1,4 +1,4 @@
-﻿namespace Kentico.Xperience.GoogleMaps.Models.AddressValidation
+﻿namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents the response from the geocoding service.
