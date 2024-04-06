@@ -21,11 +21,6 @@
   </ItemGroup>
 
 <ItemGroup>
-	<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
-	</AssemblyAttribute>
-</ItemGroup>
-
-<ItemGroup>
   <PackageReference Update="SonarAnalyzer.CSharp">
     <PrivateAssets>all</PrivateAssets>
     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
