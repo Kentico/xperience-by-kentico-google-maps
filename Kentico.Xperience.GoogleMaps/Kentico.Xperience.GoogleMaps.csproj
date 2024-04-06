@@ -13,11 +13,23 @@
 
   <ItemGroup>
     <PackageReference Include="Kentico.Xperience.Admin" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.ConsoleRunner" />
+    <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
 <ItemGroup>
 	<AssemblyAttribute Include="CMS.AssemblyDiscoverableAttribute">
 	</AssemblyAttribute>
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Update="SonarAnalyzer.CSharp">
+    <PrivateAssets>all</PrivateAssets>
+    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
 </ItemGroup>
 
 </Project>
