@@ -26,22 +26,26 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidatorResult> Validate(string value)
+        public async Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = false)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return GetValidationResult(false);
             }
 
-            var geocodeResponse = await SendGeocodeRequest(value);
-            if (geocodeResponse is not null && geocodeResponse.Status != "OK")
+            string address = value;
+            if (enableCompanyNames)
             {
-                return GetValidationResult(false);
+                var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
+                if (geocodeResponse is not null && geocodeResponse.Status != "OK")
+                {
+                    return GetValidationResult(false);
+                }
+                address = geocodeResponse?.Results?.First().FormattedAddress ?? string.Empty;
             }
 
-            var validateAddressResponse = await SendValidateAddressRequest(geocodeResponse?.Results?.First().FormattedAddress ?? string.Empty);
-            if (validateAddressResponse?.Result?.Address is not null
-                && validateAddressResponse.Result.Verdict?.AddressComplete == true)
+            var validateAddressResponse = await SendValidateAddressRequest(address, supportedCountries);
+            if (validateAddressResponse?.Result?.Address is not null && validateAddressResponse.Result.Verdict?.AddressComplete == true)
             {
                 return GetValidationResult(true, validateAddressResponse.Result.Address.FormattedAddress);
             }
@@ -50,9 +54,9 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<GeocodeResponse?> SendGeocodeRequest(string value)
+        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string supportedCountries)
         {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, "country:US");
+            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, $"country:{supportedCountries}");
 
             var httpClient = GetHttpClient();
 
@@ -69,14 +73,14 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value)
+        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value, string supportedCountries)
         {
             var validateAddressRequestData = new AddressValidationRequestData()
             {
                 Address = new AddressValidationRequestDataAddress()
                 {
                     AddressLines = new List<string> { value },
-                    RegionCode = "US"
+                    RegionCode = supportedCountries
                 }
             };
             string url = string.Format(GoogleMapsConstants.VALIDATION_API_URL, options.Value.APIKey);

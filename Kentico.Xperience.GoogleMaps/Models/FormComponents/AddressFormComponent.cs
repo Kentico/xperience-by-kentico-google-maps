@@ -62,13 +62,15 @@ namespace Kentico.Xperience.GoogleMaps
 
             string value = GetValue();
 
-            var addressValidationResult = addressValidator.Validate(value).GetAwaiter().GetResult();
+            var addressValidationResult = Properties.EnableValidation
+                ? addressValidator.Validate(value, Properties.SupportedCountries, Properties.EnableCompanyNames).GetAwaiter().GetResult()
+                : null;
 
-            if (!string.IsNullOrWhiteSpace(value) && !addressValidationResult.IsValid)
+            if (!string.IsNullOrWhiteSpace(value) && Properties.EnableValidation && !addressValidationResult?.IsValid == true)
             {
                 errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
             }
-            else
+            else if (Properties.EnableValidation && addressValidationResult is not null)
             {
                 Value = addressValidationResult.FormattedAddress ?? string.Empty;
             }
