@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets or sets a value indicating whether the address is complete.
         /// </summary>
-        public bool AddressComplete { get; set; }
+        public bool? AddressComplete { get; set; }
     }
 }
