@@ -1,10 +1,8 @@
 ﻿using System.Net.Http.Json;
 using CMS.Core;
-using Kentico.Xperience.GoogleMaps.Models.AddressValidation;
-using Kentico.Xperience.RepoTemplate.Options;
 using Microsoft.Extensions.Options;
 
-namespace Kentico.Xperience.GoogleMaps.Services
+namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Validates addresses using API.
@@ -28,7 +26,7 @@ namespace Kentico.Xperience.GoogleMaps.Services
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidationResult> Validate(string value)
+        public async Task<AddressValidatorResult> Validate(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -72,11 +70,11 @@ namespace Kentico.Xperience.GoogleMaps.Services
         }
 
 
-        private async Task<ValidationResponse?> SendValidateAddressRequest(string value)
+        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value)
         {
-            var validateAddressRequestData = new ValidationRequestData()
+            var validateAddressRequestData = new AddressValidationRequestData()
             {
-                Address = new ValidationRequestDataAddress()
+                Address = new AddressValidationRequestDataAddress()
                 {
                     AddressLines = new List<string> { value },
                     RegionCode = "US"
@@ -89,7 +87,7 @@ namespace Kentico.Xperience.GoogleMaps.Services
             try
             {
                 var validationResponse = await httpClient.PostAsJsonAsync(url, validateAddressRequestData);
-                return await validationResponse.Content.ReadFromJsonAsync<ValidationResponse>();
+                return await validationResponse.Content.ReadFromJsonAsync<AddressValidationResponse>();
             }
             catch (Exception ex)
             {
@@ -106,9 +104,9 @@ namespace Kentico.Xperience.GoogleMaps.Services
         }
 
 
-        private AddressValidationResult GetValidationResult(bool isValid, string? formattedAddress = null)
+        private AddressValidatorResult GetValidationResult(bool isValid, string? formattedAddress = null)
         {
-            return new AddressValidationResult()
+            return new AddressValidatorResult()
             {
                 IsValid = isValid,
                 FormattedAddress = formattedAddress

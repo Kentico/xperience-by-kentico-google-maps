@@ -1,4 +1,4 @@
-﻿namespace Kentico.Xperience.RepoTemplate.Options
+﻿namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents Google Maps options.

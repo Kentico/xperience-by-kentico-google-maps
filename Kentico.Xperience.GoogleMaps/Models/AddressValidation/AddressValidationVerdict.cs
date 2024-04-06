@@ -1,9 +1,9 @@
-﻿namespace Kentico.Xperience.GoogleMaps.Models.AddressValidation
+﻿namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents the validation verdict for an address.
     /// </summary>
-    internal class ValidationVerdict
+    internal class AddressValidationVerdict
     {
         /// <summary>
         /// Gets or sets a value indicating whether the address is complete.

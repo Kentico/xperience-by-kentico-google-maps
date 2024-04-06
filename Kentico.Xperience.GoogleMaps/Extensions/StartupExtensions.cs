@@ -1,10 +1,8 @@
 ﻿using System.Net.Http.Headers;
-using Kentico.Xperience.GoogleMaps.Services;
-using Kentico.Xperience.RepoTemplate.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kentico.Xperience.GoogleMaps.Extensions
+namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Startup extensions necessary for Google Maps.

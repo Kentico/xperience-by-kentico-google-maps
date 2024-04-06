@@ -1,13 +1,13 @@
-﻿namespace Kentico.Xperience.GoogleMaps.Models.AddressValidation
+﻿namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents the validation response for an address.
     /// </summary>
-    internal class ValidationResponse
+    internal class AddressValidationResponse
     {
         /// <summary>
         /// Gets or sets the validation result.
         /// </summary>
-        public ValidationResult? Result { get; set; }
+        public AddressValidationResult? Result { get; set; }
     }
 }

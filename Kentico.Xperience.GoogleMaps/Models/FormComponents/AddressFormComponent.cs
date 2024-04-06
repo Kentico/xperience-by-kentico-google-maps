@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Kentico.Forms.Web.Mvc;
-using Kentico.Xperience.GoogleMaps.Models.FormComponents;
-using Kentico.Xperience.GoogleMaps.Services;
+using Kentico.Xperience.GoogleMaps;
 
 [assembly: RegisterFormComponent(AddressFormComponent.IDENTIFIER,
                                  typeof(AddressFormComponent),
                                  "Address",
                                  IconClass = "icon-home")]
 
-namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
+namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
     /// Represents a address input form component.
