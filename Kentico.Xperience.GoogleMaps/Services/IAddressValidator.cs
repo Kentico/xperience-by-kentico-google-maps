@@ -1,7 +1,12 @@
-﻿namespace Kentico.Xperience.GoogleMaps.Services
+namespace Kentico.Xperience.GoogleMaps.Services
 {
     public interface IAddressValidator
     {
-        Task<bool> IsValid(string value);
+        /// <summary>
+        /// Validates if the address is valid.
+        /// </summary>
+        /// <param name="value">The address to validate.</param>
+        /// <returns>True if the address is valid, otherwise false.</returns>
+        Task<AddressValidationResult> Validate(string value);
     }
 }
