@@ -82,7 +82,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
 
             [Test]
-            public async Task Validate_CompanyName_ReturnsExpectedResult()
+            public async Task Validate_CompanyNamesEnabled_ReturnsExpectedResult()
             {
                 const string COMPANY_NAME = "Rockstar Games";
                 const string COMPANY_ADDRESS = "622 Broadway, New York, NY 10012, USA";
@@ -116,7 +116,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     })
                 });
 
-                var result = await addressValidator.Validate(COMPANY_NAME);
+                var result = await addressValidator.Validate(COMPANY_NAME, "US", true);
 
                 Assert.Multiple(() =>
                 {
@@ -125,6 +125,41 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     Assert.That(NumberOfRequests, Is.EqualTo(2));
 
                     httpClientFactory.Received(2).CreateClient(GoogleMapsConstants.CLIENT_NAME);
+                });
+            }
+
+
+            [Test]
+            public async Task Validate_CompanyNamesDisabled_ReturnsExpectedResult()
+            {
+                const string COMPANY_NAME = "Rockstar Games";
+
+                MockHttpClient(new List<HttpResponseMessage>
+                {
+                    GetMessage(new AddressValidationResponse
+                    {
+                        Result = new AddressValidationResult
+                        {
+                            Verdict = new AddressValidationVerdict
+                            {
+                                AddressComplete = null,
+                            },
+                            Address = new AddressValidationAddress
+                            {
+                                FormattedAddress = COMPANY_NAME,
+                            },
+                        },
+                    })
+                });
+
+                var result = await addressValidator.Validate(COMPANY_NAME);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(result.IsValid, Is.False);
+                    Assert.That(NumberOfRequests, Is.EqualTo(1));
+
+                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
                 });
             }
 
