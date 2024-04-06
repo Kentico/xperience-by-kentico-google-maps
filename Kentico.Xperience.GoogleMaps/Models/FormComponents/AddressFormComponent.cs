@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Kentico.Forms.Web.Mvc;
 using Kentico.Xperience.GoogleMaps.Models.FormComponents;
 using Kentico.Xperience.GoogleMaps.Services;
@@ -18,9 +18,16 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
         private readonly IAddressValidator addressValidator;
 
 
+        /// <summary>
+        /// Represents the <see cref="AddressFormComponent"/> identifier.
+        /// </summary>
         public const string IDENTIFIER = "AddressFormComponent";
 
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="AddressFormComponent"/> class.
+        /// </summary>
+        /// <param name="addressValidator">Service validating addresses.</param>
         public AddressFormComponent(IAddressValidator addressValidator)
         {
             this.addressValidator = addressValidator;
@@ -34,18 +41,14 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
         public string Value { get; set; } = string.Empty;
 
 
-        /// <summary>
-        /// Gets the <see cref="Value"/>.
-        /// </summary>
+        ///<inheritdoc/>
         public override string GetValue()
         {
             return Value;
         }
 
 
-        /// <summary>
-        /// Sets the <see cref="Value"/>.
-        /// </summary>
+        ///<inheritdoc/>
         public override void SetValue(string value)
         {
             Value = value;

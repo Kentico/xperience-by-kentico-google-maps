@@ -9,9 +9,7 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
     /// </summary>
     public class AddressFormComponentProperties : FormComponentProperties<string>
     {
-        /// <summary>
-        /// Gets or sets the default value of the form component and underlying field.
-        /// </summary>
+        ///<inheritdoc/>
         [TextInputComponent(Label = "{$kentico.formbuilder.defaultvalue$}", Order = EditingComponentOrder.DEFAULT_VALUE)]
         public override string DefaultValue { get; set; } = string.Empty;
 
