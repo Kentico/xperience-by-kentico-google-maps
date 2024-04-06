@@ -67,12 +67,6 @@ namespace Kentico.Xperience.GoogleMaps.Tests
         }
 
 
-        protected static HttpResponseMessage GetMessage(HttpStatusCode statusCode = HttpStatusCode.OK)
-        {
-            return GetMessage<object>(statusCode: statusCode);
-        }
-
-
         protected static HttpResponseMessage GetMessage<T>(T content = null, HttpStatusCode statusCode = HttpStatusCode.OK)
             where T : class
         {
