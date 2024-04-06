@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Kentico.Forms.Web.Mvc;
 using Kentico.Xperience.GoogleMaps.Models.FormComponents;
 using Kentico.Xperience.GoogleMaps.Services;
@@ -60,11 +60,15 @@ namespace Kentico.Xperience.GoogleMaps.Models.FormComponents
 
             string value = GetValue();
 
-            bool addressValidatorResult = addressValidator.IsValid(value).GetAwaiter().GetResult();
+            var addressValidationResult = addressValidator.Validate(value).GetAwaiter().GetResult();
 
-            if (!string.IsNullOrWhiteSpace(value) && addressValidatorResult)
+            if (!string.IsNullOrWhiteSpace(value) && !addressValidationResult.IsValid)
             {
                 errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
+            }
+            else
+            {
+                Value = addressValidationResult.FormattedAddress ?? string.Empty;
             }
 
             return errors;
