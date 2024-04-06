@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace Kentico.Xperience.GoogleMaps
 {
     /// <summary>
-    /// Validates addresses using API.
+    /// Validates addresses using API endpoint.
     /// </summary>
     internal class AddressValidator : IAddressValidator
     {
@@ -40,9 +40,8 @@ namespace Kentico.Xperience.GoogleMaps
             }
 
             var validateAddressResponse = await SendValidateAddressRequest(geocodeResponse?.Results?.First().FormattedAddress ?? string.Empty);
-            if (validateAddressResponse?.Result?.Verdict is not null
-                && validateAddressResponse?.Result?.Address is not null
-                && validateAddressResponse.Result.Verdict.AddressComplete)
+            if (validateAddressResponse?.Result?.Address is not null
+                && validateAddressResponse.Result.Verdict?.AddressComplete == true)
             {
                 return GetValidationResult(true, validateAddressResponse.Result.Address.FormattedAddress);
             }
