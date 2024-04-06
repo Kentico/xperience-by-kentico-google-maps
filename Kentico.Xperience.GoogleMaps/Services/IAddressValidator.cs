@@ -1,5 +1,10 @@
+﻿using Kentico.Xperience.GoogleMaps.Models.AddressValidation;
+
 namespace Kentico.Xperience.GoogleMaps.Services
 {
+    /// <summary>
+    /// Validates addresses.
+    /// </summary>
     public interface IAddressValidator
     {
         /// <summary>

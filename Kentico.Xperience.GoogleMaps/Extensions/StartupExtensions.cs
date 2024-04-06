@@ -11,6 +11,11 @@ namespace Kentico.Xperience.GoogleMaps.Extensions
     /// </summary>
     public static class StartupExtensions
     {
+        /// <summary>
+        /// Initializes <see cref="GoogleMapsOptions"/>.
+        /// </summary>
+        /// <param name="services">Services.</param>
+        /// <param name="configuration">Configuration.</param>
         public static IServiceCollection AddGoogleMaps(this IServiceCollection services, IConfiguration configuration)
         {
             var googleMapsSection = configuration.GetSection(GoogleMapsConstants.SECTION_KEY);
