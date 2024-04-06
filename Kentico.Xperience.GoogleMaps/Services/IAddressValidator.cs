@@ -12,6 +12,6 @@
         /// <param name="supportedCountries">Supported countries separated by colons. Use Alpha-2 code for countries.</param>
         /// <param name="enableCompanyNames">Enables validation for company names.</param>
         /// <returns>True if the address is valid, otherwise false.</returns>
-        Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = false);
+        Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = true);
     }
 }
