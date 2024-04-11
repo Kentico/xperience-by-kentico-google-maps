@@ -14,18 +14,18 @@ namespace Kentico.Xperience.GoogleMaps
         public override string DefaultValue { get; set; } = string.Empty;
 
 
-        [CheckBoxComponent(Label = "Enable Validation", Order = EditingComponentOrder.DEFAULT_VALUE,
-            ExplanationText = "This option enables validation of addresses using Google Maps API.")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
+            Tooltip = "{$addressformcomponent.properties.enablevalidation.tooltip$}")]
         public bool EnableValidation { get; set; } = false;
 
 
-        [CheckBoxComponent(Label = "Enable company names", Order = EditingComponentOrder.DEFAULT_VALUE,
-            ExplanationText = "This option enables suggestions and validation for company names.")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
+            Tooltip = "{$addressformcomponent.properties.enablecompanynames.tooltip$}")]
         public bool EnableCompanyNames { get; set; } = false;
 
 
-        [TextInputComponent(Label = "Supported countries", Order = EditingComponentOrder.DEFAULT_VALUE,
-            ExplanationText = "Insert countries you want to support separated by colons. Use Alpha-2 code for countries: https://www.iban.com/country-codes")]
+        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
+            ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}", ExplanationTextAsHtml = true)]
         public string SupportedCountries { get; set; } = string.Empty;
 
 

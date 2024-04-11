@@ -4,7 +4,7 @@ using Kentico.Xperience.GoogleMaps;
 
 [assembly: RegisterFormComponent(AddressFormComponent.IDENTIFIER,
                                  typeof(AddressFormComponent),
-                                 "Address",
+                                 "{$addressformcomponent.name$}",
                                  IconClass = "icon-home")]
 
 namespace Kentico.Xperience.GoogleMaps
