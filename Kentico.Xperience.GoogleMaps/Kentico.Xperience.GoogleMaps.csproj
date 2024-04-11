@@ -6,6 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\GoogleMapsResources.resx">
+			<ExcludeFromManifest>true</ExcludeFromManifest>
+		</EmbeddedResource>
+	</ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
