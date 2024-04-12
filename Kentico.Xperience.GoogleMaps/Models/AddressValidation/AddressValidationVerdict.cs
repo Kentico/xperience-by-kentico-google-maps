@@ -9,5 +9,11 @@
         /// Gets or sets a value indicating whether the address is complete.
         /// </summary>
         public bool? AddressComplete { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the input granularity of the address.
+        /// </summary>
+        public InputGranularity? InputGranularity { get; set; }
     }
 }

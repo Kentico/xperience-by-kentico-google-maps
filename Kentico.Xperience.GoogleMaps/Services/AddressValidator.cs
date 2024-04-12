@@ -26,7 +26,7 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidatorResult> Validate(string value, string supportedCountries = "US", bool enableCompanyNames = true)
+        public async Task<AddressValidatorResult> Validate(string value, string? supportedCountries = null, bool enableCompanyNames = true)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -45,7 +45,8 @@ namespace Kentico.Xperience.GoogleMaps
             }
 
             var validateAddressResponse = await SendValidateAddressRequest(address, supportedCountries);
-            if (validateAddressResponse?.Result?.Address is not null && validateAddressResponse.Result.Verdict?.AddressComplete == true)
+            if (validateAddressResponse?.Result?.Address is not null
+                && IsAddressValid(validateAddressResponse))
             {
                 return GetValidationResult(true, validateAddressResponse.Result.Address.FormattedAddress);
             }
@@ -54,9 +55,9 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string supportedCountries)
+        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountries)
         {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, $"country:{supportedCountries}");
+            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, supportedCountries is not null ? $"country:{supportedCountries}" : null);
 
             var httpClient = GetHttpClient();
 
@@ -73,7 +74,7 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value, string supportedCountries)
+        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value, string? supportedCountries)
         {
             var validateAddressRequestData = new AddressValidationRequestData()
             {
@@ -104,6 +105,14 @@ namespace Kentico.Xperience.GoogleMaps
         private HttpClient GetHttpClient()
         {
             return httpClientFactory.CreateClient(GoogleMapsConstants.CLIENT_NAME);
+        }
+
+
+        private bool IsAddressValid(AddressValidationResponse? validateAddressResponse)
+        {
+            return validateAddressResponse?.Result?.Verdict?.AddressComplete == true
+                && (validateAddressResponse.Result.Verdict?.InputGranularity == InputGranularity.Premise
+                || validateAddressResponse.Result.Verdict?.InputGranularity == InputGranularity.SubPremise);
         }
 
 
