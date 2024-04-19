@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Headers;
+using Kentico.Xperience.GoogleMaps;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Kentico.Xperience.GoogleMaps
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Startup extensions necessary for Google Maps.
@@ -14,14 +14,14 @@ namespace Kentico.Xperience.GoogleMaps
         /// </summary>
         /// <param name="services">Services.</param>
         /// <param name="configuration">Configuration.</param>
-        public static IServiceCollection AddGoogleMaps(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddXperienceGoogleMaps(this IServiceCollection services, IConfiguration configuration)
         {
             var googleMapsSection = configuration.GetSection(GoogleMapsConstants.SECTION_KEY);
             services.Configure<GoogleMapsOptions>(googleMapsSection);
 
             var googleMapsOptions = googleMapsSection.Get<GoogleMapsOptions>();
 
-            if (string.IsNullOrEmpty(googleMapsOptions.APIKey))
+            if (string.IsNullOrEmpty(googleMapsOptions?.APIKey))
             {
                 throw new InvalidOperationException(nameof(googleMapsOptions.APIKey));
             }
