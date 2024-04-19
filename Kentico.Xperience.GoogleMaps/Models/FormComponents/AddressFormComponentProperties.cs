@@ -10,31 +10,29 @@ namespace Kentico.Xperience.GoogleMaps
     public class AddressFormComponentProperties : FormComponentProperties<string>
     {
         ///<inheritdoc/>
-        [TextInputComponent(Label = "{$kentico.formbuilder.defaultvalue$}", Order = EditingComponentOrder.DEFAULT_VALUE)]
+        [TextInputComponent(Label = "{$kentico.formbuilder.defaultvalue$}")]
         public override string DefaultValue { get; set; } = string.Empty;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether validation is enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
-            Tooltip = "{$addressformcomponent.properties.enablevalidation.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", Tooltip = "{$addressformcomponent.properties.enablevalidation.tooltip$}")]
         public bool EnableValidation { get; set; } = false;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether company names are enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
-            Tooltip = "{$addressformcomponent.properties.enablecompanynames.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", Tooltip = "{$addressformcomponent.properties.enablecompanynames.tooltip$}")]
         public bool EnableCompanyNames { get; set; } = false;
 
 
         /// <summary>
         /// Gets or sets the supported countries for the address form component.
         /// </summary>
-        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}", Order = EditingComponentOrder.DEFAULT_VALUE,
-            ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}", ExplanationTextAsHtml = true)]
+        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}", ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}",
+            ExplanationTextAsHtml = true)]
         public string SupportedCountries { get; set; } = string.Empty;
 
 
