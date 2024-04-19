@@ -37,7 +37,7 @@ namespace Kentico.Xperience.GoogleMaps
             if (enableCompanyNames)
             {
                 var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
-                if (geocodeResponse is not null && geocodeResponse.Status != "OK")
+                if (geocodeResponse is not null && geocodeResponse.Status != "OK" && geocodeResponse.Results?.Count() == 1)
                 {
                     return GetValidationResult(false);
                 }
@@ -57,7 +57,7 @@ namespace Kentico.Xperience.GoogleMaps
 
         private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountries)
         {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, supportedCountries is not null ? $"country:{supportedCountries}" : null);
+            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountries) ? $"country:{supportedCountries}" : null);
 
             var httpClient = GetHttpClient();
 
