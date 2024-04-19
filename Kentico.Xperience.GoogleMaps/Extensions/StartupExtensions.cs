@@ -32,6 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 => client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")));
 
             services.AddSingleton<IAddressValidator, AddressValidator>();
+            services.AddSingleton<IAddressGeocoder, AddressGeocoder>();
 
             return services;
         }

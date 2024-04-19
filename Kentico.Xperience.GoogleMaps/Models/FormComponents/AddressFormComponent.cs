@@ -15,6 +15,7 @@ namespace Kentico.Xperience.GoogleMaps
     public class AddressFormComponent : FormComponent<AddressFormComponentProperties, string>
     {
         private readonly IAddressValidator addressValidator;
+        private readonly IAddressGeocoder addressGeocoder;
 
 
         /// <summary>
@@ -27,9 +28,10 @@ namespace Kentico.Xperience.GoogleMaps
         /// Initializes an instance of the <see cref="AddressFormComponent"/> class.
         /// </summary>
         /// <param name="addressValidator">Service validating addresses.</param>
-        public AddressFormComponent(IAddressValidator addressValidator)
+        public AddressFormComponent(IAddressValidator addressValidator, IAddressGeocoder addressGeocoder)
         {
             this.addressValidator = addressValidator;
+            this.addressGeocoder = addressGeocoder;
         }
 
 
@@ -60,10 +62,15 @@ namespace Kentico.Xperience.GoogleMaps
             var errors = new List<ValidationResult>();
             errors.AddRange(base.Validate(validationContext));
 
-            string value = GetValue();
+            string? value = GetValue();
 
-            var addressValidationResult = Properties.EnableValidation
-                ? addressValidator.Validate(value, Properties.SupportedCountries, Properties.EnableCompanyNames).GetAwaiter().GetResult()
+            if (Properties.EnableCompanyNames)
+            {
+                value = addressGeocoder.Geocode(value, Properties.SupportedCountries).GetAwaiter().GetResult();
+            }
+
+            var addressValidationResult = Properties.EnableValidation && value is not null
+                ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
                 : null;
 
             if (!string.IsNullOrWhiteSpace(value) && Properties.EnableValidation && !addressValidationResult?.IsValid == true)

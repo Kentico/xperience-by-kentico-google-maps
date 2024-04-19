@@ -26,25 +26,14 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidatorResult> Validate(string value, string? supportedCountries = null, bool enableCompanyNames = true)
+        public async Task<AddressValidatorResult> Validate(string value, string? supportedCountries = null)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return GetValidationResult(false);
             }
 
-            string address = value;
-            if (enableCompanyNames)
-            {
-                var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
-                if (geocodeResponse is not null && geocodeResponse.Status != "OK" && geocodeResponse.Results?.Count() == 1)
-                {
-                    return GetValidationResult(false);
-                }
-                address = geocodeResponse?.Results?.First().FormattedAddress ?? string.Empty;
-            }
-
-            var validateAddressResponse = await SendValidateAddressRequest(address, supportedCountries);
+            var validateAddressResponse = await SendValidateAddressRequest(value, supportedCountries);
             if (validateAddressResponse?.Result?.Address is not null
                 && IsAddressValid(validateAddressResponse))
             {
@@ -52,25 +41,6 @@ namespace Kentico.Xperience.GoogleMaps
             }
 
             return GetValidationResult(false);
-        }
-
-
-        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountries)
-        {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountries) ? $"country:{supportedCountries}" : null);
-
-            var httpClient = GetHttpClient();
-
-            try
-            {
-                return await httpClient.GetFromJsonAsync<GeocodeResponse>(url);
-            }
-            catch (Exception ex)
-            {
-                eventLogService.LogException(nameof(AddressValidator), nameof(SendGeocodeRequest), ex, additionalMessage: $"{nameof(SendGeocodeRequest)} failed. Request path: {url}");
-            }
-
-            return null;
         }
 
 
