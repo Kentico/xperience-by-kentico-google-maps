@@ -20,7 +20,7 @@
         /// <summary>
         /// Name of the Google maps section in the 'appsettings.json' file.
         /// </summary>
-        public const string SECTION_KEY = "xperience.googleMaps";
+        public const string SECTION_KEY = "CMSXperienceGoogleMaps";
 
 
         /// <summary>

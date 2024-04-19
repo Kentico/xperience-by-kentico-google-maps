@@ -39,7 +39,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     })
                     .Build();
 
-                services.AddGoogleMaps(configuration);
+                services.AddXperienceGoogleMaps(configuration);
 
                 var serviceProvider = services.BuildServiceProvider();
                 var googleMapsOptions = serviceProvider.GetRequiredService<IOptions<GoogleMapsOptions>>();
@@ -67,7 +67,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     })
                     .Build();
 
-                Assert.That(() => services.AddGoogleMaps(configuration), Throws.InvalidOperationException);
+                Assert.That(() => services.AddXperienceGoogleMaps(configuration), Throws.InvalidOperationException);
             }
         }
     }
