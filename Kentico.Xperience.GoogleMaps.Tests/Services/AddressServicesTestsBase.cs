@@ -12,12 +12,13 @@ namespace Kentico.Xperience.GoogleMaps.Tests
     /// <summary>
     /// Base class for <see cref="AddressValidatorTests"/> tests.
     /// </summary>
-    public class AddressValidatorTestsBase : UnitTests
+    public class AddressServicesTestsBase : UnitTests
     {
         protected const string API_KEY = "API_KEY";
         protected const string DOMAIN = "http://test.com/";
 
         private protected AddressValidator addressValidator;
+        private protected AddressGeocoder addressGeocoder;
         private protected IHttpClientFactory httpClientFactory;
         private protected GoogleMapsOptions options;
         private protected IEventLogService eventLogService;
@@ -64,6 +65,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
             NumberOfRequests = 0;
 
             addressValidator = new AddressValidator(httpClientFactory, eventLogService, iOptions);
+            addressGeocoder = new AddressGeocoder(httpClientFactory, eventLogService, iOptions);
         }
 
 
@@ -79,7 +81,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
 
         /// <summary>
-        /// Used for mocking responses of httpClient. Needed to allow mocking multiple requests in the same method.
+        /// Used for mocking responses of httpClient.
         /// </summary>
         /// <param name="responseMessages">Responses to use for requests, returned by the given order.</param>
         protected void MockHttpClient(IList<HttpResponseMessage> responseMessages)

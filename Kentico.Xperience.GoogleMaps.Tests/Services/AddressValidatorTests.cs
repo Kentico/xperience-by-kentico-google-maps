@@ -6,7 +6,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
     public class AddressValidatorTests
     {
         [TestFixture]
-        public class ValidateTests : AddressValidatorTestsBase
+        public class ValidateTests : AddressServicesTestsBase
         {
             [Test]
             public async Task Validate_ValidAddress_ReturnsExpectedResult()
@@ -15,23 +15,13 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                 MockHttpClient(new List<HttpResponseMessage>
                 {
-                    GetMessage(new GeocodeResponse
-                    {
-                        Status = "OK",
-                        Results = new List<GeocodeResult>
-                        {
-                            new()
-                            {
-                                FormattedAddress = VALID_ADDRESS,
-                            },
-                        },
-                    }),
                     GetMessage(new AddressValidationResponse
                     {
                         Result = new AddressValidationResult
                         {
                             Verdict = new AddressValidationVerdict
                             {
+                                InputGranularity = InputGranularity.Premise,
                                 AddressComplete = true,
                             },
                             Address = new AddressValidationAddress
@@ -48,9 +38,9 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 {
                     Assert.That(result.IsValid, Is.True);
                     Assert.That(result.FormattedAddress, Is.EqualTo(VALID_ADDRESS));
-                    Assert.That(NumberOfRequests, Is.EqualTo(2));
+                    Assert.That(NumberOfRequests, Is.EqualTo(1));
 
-                    httpClientFactory.Received(2).CreateClient(GoogleMapsConstants.CLIENT_NAME);
+                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
                 });
             }
 
@@ -62,97 +52,23 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                 MockHttpClient(new List<HttpResponseMessage>
                 {
-                    GetMessage(new GeocodeResponse
+                    GetMessage(new AddressValidationResponse
                     {
-                        Status = "ZERO_RESULTS",
-                        Results = new List<GeocodeResult>(),
+                        Result = new AddressValidationResult
+                        {
+                            Verdict = new AddressValidationVerdict
+                            {
+                                InputGranularity = InputGranularity.Premise,
+                            },
+                            Address = new AddressValidationAddress
+                            {
+                                FormattedAddress = INVALID_ADDRESS + ", United States",
+                            }
+                        },
                     })
                 });
 
                 var result = await addressValidator.Validate(INVALID_ADDRESS);
-
-                Assert.Multiple(() =>
-                {
-                    Assert.That(result.IsValid, Is.False);
-                    Assert.That(NumberOfRequests, Is.EqualTo(1));
-
-                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
-                });
-            }
-
-
-            [Test]
-            public async Task Validate_CompanyNamesEnabled_ReturnsExpectedResult()
-            {
-                const string COMPANY_NAME = "Rockstar Games";
-                const string COMPANY_ADDRESS = "622 Broadway, New York, NY 10012, USA";
-
-                MockHttpClient(new List<HttpResponseMessage>
-                {
-                    GetMessage(new GeocodeResponse
-                    {
-                        Status = "OK",
-                        Results = new List<GeocodeResult>
-                        {
-                            new()
-                            {
-                                FormattedAddress = COMPANY_ADDRESS,
-                            },
-                        },
-                    }),
-                    GetMessage(new AddressValidationResponse
-                    {
-                        Result = new AddressValidationResult
-                        {
-                            Verdict = new AddressValidationVerdict
-                            {
-                                AddressComplete = true,
-                            },
-                            Address = new AddressValidationAddress
-                            {
-                                FormattedAddress = COMPANY_ADDRESS,
-                            },
-                        },
-                    })
-                });
-
-                var result = await addressValidator.Validate(COMPANY_NAME);
-
-                Assert.Multiple(() =>
-                {
-                    Assert.That(result.IsValid, Is.True);
-                    Assert.That(result.FormattedAddress, Is.EqualTo(COMPANY_ADDRESS));
-                    Assert.That(NumberOfRequests, Is.EqualTo(2));
-
-                    httpClientFactory.Received(2).CreateClient(GoogleMapsConstants.CLIENT_NAME);
-                });
-            }
-
-
-            [Test]
-            public async Task Validate_CompanyNamesDisabled_ReturnsExpectedResult()
-            {
-                const string COMPANY_NAME = "Rockstar Games";
-
-                MockHttpClient(new List<HttpResponseMessage>
-                {
-                    GetMessage(new AddressValidationResponse
-                    {
-                        Result = new AddressValidationResult
-                        {
-                            Verdict = new AddressValidationVerdict
-                            {
-                                AddressComplete = null,
-                            },
-                            Address = new AddressValidationAddress
-                            {
-                                FormattedAddress = COMPANY_NAME,
-                            },
-                        },
-                    })
-                });
-
-                var result = await addressValidator.Validate(COMPANY_NAME, "US", false);
 
                 Assert.Multiple(() =>
                 {
@@ -171,24 +87,13 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                 MockHttpClient(new List<HttpResponseMessage>
                 {
-                    GetMessage(new GeocodeResponse
-                    {
-                        Status = "OK",
-                        Results = new List<GeocodeResult>
-                        {
-                            new()
-                            {
-                                FormattedAddress = NOT_COMPLETE_ADDRESS,
-                            },
-                        },
-                    }),
                     GetMessage(new AddressValidationResponse
                     {
                         Result = new AddressValidationResult
                         {
                             Verdict = new AddressValidationVerdict
                             {
-                                AddressComplete = null,
+                                InputGranularity = InputGranularity.Other
                             },
                             Address = new AddressValidationAddress
                             {
@@ -203,9 +108,79 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(result.IsValid, Is.False);
-                    Assert.That(NumberOfRequests, Is.EqualTo(2));
+                    Assert.That(NumberOfRequests, Is.EqualTo(1));
 
-                    httpClientFactory.Received(2).CreateClient(GoogleMapsConstants.CLIENT_NAME);
+                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
+                });
+            }
+
+
+            [Test]
+            public async Task Validate_NotSupportedCountryAddress_ReturnsExpectedResult()
+            {
+                const string NOT_SUPPORTED_ADDRESS = "Nové sady 25";
+
+                MockHttpClient(new List<HttpResponseMessage>
+                {
+                    GetMessage(new AddressValidationResponse
+                    {
+                        Result = new AddressValidationResult
+                        {
+                            Verdict = new AddressValidationVerdict
+                            {
+                                InputGranularity = InputGranularity.Premise
+                            },
+                            Address = new AddressValidationAddress
+                            {
+                                FormattedAddress = NOT_SUPPORTED_ADDRESS + ", United States",
+                            },
+                        },
+                    })
+                });
+
+                var result = await addressValidator.Validate(NOT_SUPPORTED_ADDRESS, "US");
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(result.IsValid, Is.False);
+                    Assert.That(NumberOfRequests, Is.EqualTo(1));
+
+                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
+                });
+            }
+
+
+            [Test]
+            public async Task Validate_CompantName_ReturnsExpectedResult()
+            {
+                const string COMPANY_NAME = "Rockstar Games";
+
+                MockHttpClient(new List<HttpResponseMessage>
+                {
+                    GetMessage(new AddressValidationResponse
+                    {
+                        Result = new AddressValidationResult
+                        {
+                            Verdict = new AddressValidationVerdict
+                            {
+                                InputGranularity = InputGranularity.Premise
+                            },
+                            Address = new AddressValidationAddress
+                            {
+                                FormattedAddress = COMPANY_NAME + ", United States",
+                            },
+                        },
+                    })
+                });
+
+                var result = await addressValidator.Validate(COMPANY_NAME);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(result.IsValid, Is.False);
+                    Assert.That(NumberOfRequests, Is.EqualTo(1));
+
+                    httpClientFactory.Received(1).CreateClient(GoogleMapsConstants.CLIENT_NAME);
                 });
             }
 

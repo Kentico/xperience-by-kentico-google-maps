@@ -28,6 +28,7 @@ namespace Kentico.Xperience.GoogleMaps
         /// Initializes an instance of the <see cref="AddressFormComponent"/> class.
         /// </summary>
         /// <param name="addressValidator">Service validating addresses.</param>
+        /// <param name="addressGeocoder">Service getting addresses using geocoding API.</param>
         public AddressFormComponent(IAddressValidator addressValidator, IAddressGeocoder addressGeocoder)
         {
             this.addressValidator = addressValidator;
