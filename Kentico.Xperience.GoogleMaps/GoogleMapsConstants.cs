@@ -26,6 +26,6 @@
         /// <summary>
         /// Name of the named HTTP client.
         /// </summary>
-        public const string CLIENT_NAME = "GoogleMapsClient";
+        public const string CLIENT_NAME = "XperienceGoogleMapsClient";
     }
 }

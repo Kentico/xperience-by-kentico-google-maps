@@ -34,8 +34,12 @@ namespace Kentico.Xperience.GoogleMaps
             }
 
             var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
-            if (geocodeResponse is not null && geocodeResponse.Status != "OK" && geocodeResponse.Results?.Count() == 1)
+            if (geocodeResponse is not null && geocodeResponse.Status != "OK" && geocodeResponse.Results?.Count() != 1)
             {
+                if (geocodeResponse.Status is "OVER_DAILY_LIMIT" or "OVER_QUERY_LIMIT" or "REQUEST_DENIED" or "UNKNOWN_ERROR")
+                {
+                    eventLogService.LogError(nameof(AddressValidator), nameof(Geocode), $"{nameof(SendGeocodeRequest)} returned {geocodeResponse.Status} status.");
+                }
                 return null;
             }
             return geocodeResponse?.Results?.First().FormattedAddress;
@@ -54,7 +58,7 @@ namespace Kentico.Xperience.GoogleMaps
             }
             catch (Exception ex)
             {
-                eventLogService.LogException(nameof(AddressValidator), nameof(SendGeocodeRequest), ex, additionalMessage: $"{nameof(SendGeocodeRequest)} failed. Request path: {url}");
+                eventLogService.LogException(nameof(AddressGeocoder), nameof(SendGeocodeRequest), ex, additionalMessage: $"{nameof(SendGeocodeRequest)} failed. Request path: {url}");
             }
 
             return null;

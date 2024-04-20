@@ -73,7 +73,7 @@ namespace Kentico.Xperience.GoogleMaps
                 ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
                 : null;
 
-            if (!string.IsNullOrWhiteSpace(value) && Properties.EnableValidation && !addressValidationResult?.IsValid == true)
+            if (Properties.EnableValidation && !addressValidationResult?.IsValid == true)
             {
                 errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
             }
