@@ -70,17 +70,25 @@ namespace Kentico.Xperience.GoogleMaps
                 value = addressGeocoder.Geocode(value, Properties.SupportedCountries).GetAwaiter().GetResult();
             }
 
-            var addressValidationResult = Properties.EnableValidation && value is not null
-                ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
-                : null;
-
-            if (Properties.EnableValidation && !addressValidationResult?.IsValid == true)
+            AddressValidatorResult? addressValidatorResult = null;
+            if (Properties.EnableValidation)
             {
-                errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
+                addressValidatorResult = value is not null
+                    ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
+                    : null;
+                if (addressValidatorResult is null || !addressValidatorResult.IsValid)
+                {
+                    errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
+                }
             }
-            else if (Properties.EnableValidation && addressValidationResult is not null)
+
+            if (!Properties.EnableValidation && value is not null)
             {
-                Value = addressValidationResult.FormattedAddress ?? string.Empty;
+                Value = value;
+            }
+            if (Properties.EnableValidation && addressValidatorResult?.IsValid == true)
+            {
+                Value = addressValidatorResult.FormattedAddress ?? string.Empty;
             }
 
             return errors;
