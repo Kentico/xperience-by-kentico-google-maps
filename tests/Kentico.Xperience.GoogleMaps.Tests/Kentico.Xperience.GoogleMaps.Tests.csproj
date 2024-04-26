@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kentico.Xperience.GoogleMaps\Kentico.Xperience.GoogleMaps.csproj" />
+    <ProjectReference Include="..\..\src\Kentico.Xperience.GoogleMaps\Kentico.Xperience.GoogleMaps.csproj" />
   </ItemGroup>
 
   <ItemGroup>
