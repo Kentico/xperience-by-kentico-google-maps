@@ -39,6 +39,11 @@ namespace Kentico.Xperience.GoogleMaps
             {
                 return GetValidationResult(true, validateAddressResponse.Result.Address.FormattedAddress);
             }
+            else if (validateAddressResponse?.Error is not null)
+            {
+                eventLogService.LogError(nameof(AddressValidator), nameof(Validate), validateAddressResponse.Error.Message);
+                throw new InvalidOperationException("Address validation API error.");
+            }
 
             return GetValidationResult(false);
         }

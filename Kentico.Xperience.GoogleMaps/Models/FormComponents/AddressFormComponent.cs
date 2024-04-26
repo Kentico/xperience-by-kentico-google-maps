@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CMS.Core;
 using Kentico.Forms.Web.Mvc;
 using Kentico.Xperience.GoogleMaps;
 
@@ -16,6 +17,7 @@ namespace Kentico.Xperience.GoogleMaps
     {
         private readonly IAddressValidator addressValidator;
         private readonly IAddressGeocoder addressGeocoder;
+        private readonly ILocalizationService localizationService;
 
 
         /// <summary>
@@ -29,10 +31,12 @@ namespace Kentico.Xperience.GoogleMaps
         /// </summary>
         /// <param name="addressValidator">Service validating addresses.</param>
         /// <param name="addressGeocoder">Service getting addresses using geocoding API.</param>
-        public AddressFormComponent(IAddressValidator addressValidator, IAddressGeocoder addressGeocoder)
+        /// <param name="localizationService">Localization service.</param>
+        public AddressFormComponent(IAddressValidator addressValidator, IAddressGeocoder addressGeocoder, ILocalizationService localizationService)
         {
             this.addressValidator = addressValidator;
             this.addressGeocoder = addressGeocoder;
+            this.localizationService = localizationService;
         }
 
 
@@ -65,30 +69,35 @@ namespace Kentico.Xperience.GoogleMaps
 
             string? value = GetValue();
 
-            if (Properties.EnableCompanyNames)
+            try
             {
-                value = addressGeocoder.Geocode(value, Properties.SupportedCountries).GetAwaiter().GetResult();
-            }
-
-            AddressValidatorResult? addressValidatorResult = null;
-            if (Properties.EnableValidation)
-            {
-                addressValidatorResult = value is not null
-                    ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
-                    : null;
-                if (addressValidatorResult is null || !addressValidatorResult.IsValid)
+                if (Properties.EnableCompanyNames)
                 {
-                    errors.Add(new ValidationResult("Entered value is not a valid address.", new[] { nameof(Value) }));
+                    value = addressGeocoder.Geocode(value, Properties.SupportedCountries).GetAwaiter().GetResult();
+                }
+
+                if (Properties.EnableValidation)
+                {
+                    var addressValidatorResult = value is not null
+                        ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
+                        : null;
+                    if (addressValidatorResult is null || !addressValidatorResult.IsValid)
+                    {
+                        errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.validationerror"), new[] { nameof(Value) }));
+                    }
+                    else
+                    {
+                        Value = addressValidatorResult.FormattedAddress ?? string.Empty;
+                    }
+                }
+                else if (value is not null)
+                {
+                    Value = value;
                 }
             }
-
-            if (!Properties.EnableValidation && value is not null)
+            catch (InvalidOperationException)
             {
-                Value = value;
-            }
-            if (Properties.EnableValidation && addressValidatorResult?.IsValid == true)
-            {
-                Value = addressValidatorResult.FormattedAddress ?? string.Empty;
+                errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.servererror"), new[] { nameof(Value) }));
             }
 
             return errors;

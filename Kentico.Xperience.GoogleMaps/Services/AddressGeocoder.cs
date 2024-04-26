@@ -13,6 +13,8 @@ namespace Kentico.Xperience.GoogleMaps
         private readonly IEventLogService eventLogService;
         private readonly IOptions<GoogleMapsOptions> options;
 
+        private readonly IEnumerable<string> apiErrors;
+
 
         /// <summary>
         /// Initializes an instance of the <see cref="AddressGeocoder"/> class.
@@ -22,6 +24,9 @@ namespace Kentico.Xperience.GoogleMaps
             this.httpClientFactory = httpClientFactory;
             this.eventLogService = eventLogService;
             this.options = options;
+
+            // https://developers.google.com/maps/documentation/geocoding/requests-geocoding#StatusCodes
+            apiErrors = new List<string> { "OVER_DAILY_LIMIT", "OVER_QUERY_LIMIT", "REQUEST_DENIED", "UNKNOWN_ERROR" };
         }
 
 
@@ -34,15 +39,16 @@ namespace Kentico.Xperience.GoogleMaps
             }
 
             var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
-            if (geocodeResponse is not null && geocodeResponse.Status != "OK" && geocodeResponse.Results?.Count() != 1)
+            if (geocodeResponse is null || geocodeResponse.Status != "OK" || geocodeResponse.Results?.Count() != 1)
             {
-                if (geocodeResponse.Status is "OVER_DAILY_LIMIT" or "OVER_QUERY_LIMIT" or "REQUEST_DENIED" or "UNKNOWN_ERROR")
+                if (apiErrors.Contains(geocodeResponse?.Status))
                 {
-                    eventLogService.LogError(nameof(AddressValidator), nameof(Geocode), $"{nameof(SendGeocodeRequest)} returned {geocodeResponse.Status} status.");
+                    eventLogService.LogError(nameof(AddressValidator), nameof(Geocode), $"{nameof(SendGeocodeRequest)} returned {geocodeResponse?.Status} status.");
+                    throw new InvalidOperationException("Geocoding API error.");
                 }
                 return null;
             }
-            return geocodeResponse?.Results?.First().FormattedAddress;
+            return geocodeResponse.Results.First().FormattedAddress;
         }
 
 

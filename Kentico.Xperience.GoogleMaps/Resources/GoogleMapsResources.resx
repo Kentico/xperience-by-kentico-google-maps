@@ -119,4 +119,10 @@
 	<data name="addressformcomponent.name" xml:space="preserve">
 		<value>Address</value>
 	</data>
+	<data name="addressformcomponent.validationerror" xml:space="preserve">
+		<value>Entered value is not a valid address.</value>
+	</data>
+	<data name="addressformcomponent.servererror" xml:space="preserve">
+		<value>We have encountered unexpected server error.</value>
+	</data>
 </root>
