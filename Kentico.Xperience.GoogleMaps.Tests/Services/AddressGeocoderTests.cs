@@ -156,9 +156,9 @@ namespace Kentico.Xperience.GoogleMaps.Tests
             }
 
 
-            [TestCase(null, TestName = "Geocode_NullValue_ThrowsException")]
-            [TestCase("", TestName = "Geocode_EmptyValue_ThrowsException")]
-            public async Task Geocode(string value)
+            [TestCase(null, TestName = "Geocode_NullValue_ReturnsNull")]
+            [TestCase("", TestName = "Geocode_EmptyValue_ReturnsNull")]
+            public async Task Geocode_InvalidValue_ReturnsNull(string value)
             {
                 string result = await addressGeocoder.Geocode(value);
 
@@ -169,6 +169,21 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                     httpClientFactory.Received(0).CreateClient(GoogleMapsConstants.CLIENT_NAME);
                 });
+            }
+
+
+            [Test]
+            public void Geocode_InvalidAPIKey_ThrowsException()
+            {
+                MockHttpClient(new List<HttpResponseMessage>
+                {
+                    GetMessage(new GeocodeResponse
+                    {
+                        Status = "REQUEST_DENIED",
+                    }),
+                });
+
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await addressGeocoder.Geocode("Address"));
             }
         }
     }

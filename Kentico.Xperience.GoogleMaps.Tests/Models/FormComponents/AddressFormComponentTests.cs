@@ -18,6 +18,8 @@ namespace Kentico.Xperience.GoogleMaps.Tests
             private ILocalizationService localizationService;
             private ValidationContext validationContext;
 
+            private const string ERROR_MESSAGE = "Entered value is not a valid address.";
+
 
             [SetUp]
             public void SetUp()
@@ -25,6 +27,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressValidator = Substitute.For<IAddressValidator>();
                 addressGeocoder = Substitute.For<IAddressGeocoder>();
                 localizationService = Substitute.For<ILocalizationService>();
+                localizationService.GetString(Arg.Any<string>()).Returns(ERROR_MESSAGE);
 
                 addressFormComponent = new AddressFormComponent(addressValidator, addressGeocoder, localizationService);
                 addressFormComponent.LoadProperties(new AddressFormComponentProperties());
@@ -92,7 +95,8 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(errors, Is.Not.Empty);
-                    Assert.That(errors.First().ErrorMessage, Is.EqualTo("Entered value is not a valid address."));
+                    Assert.That(errors.Count(), Is.EqualTo(1));
+                    Assert.That(errors.First().ErrorMessage, Is.EqualTo(ERROR_MESSAGE));
                 });
             }
 
@@ -204,7 +208,8 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(errors, Is.Not.Empty);
-                    Assert.That(errors.First().ErrorMessage, Is.EqualTo("Entered value is not a valid address."));
+                    Assert.That(errors.Count(), Is.EqualTo(1));
+                    Assert.That(errors.First().ErrorMessage, Is.EqualTo(ERROR_MESSAGE));
                 });
             }
 
@@ -252,7 +257,8 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 Assert.Multiple(() =>
                 {
                     Assert.That(errors, Is.Not.Empty);
-                    Assert.That(errors.First().ErrorMessage, Is.EqualTo("Entered value is not a valid address."));
+                    Assert.That(errors.Count(), Is.EqualTo(1));
+                    Assert.That(errors.First().ErrorMessage, Is.EqualTo(ERROR_MESSAGE));
                 });
             }
         }

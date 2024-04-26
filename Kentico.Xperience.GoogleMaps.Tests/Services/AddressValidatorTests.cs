@@ -185,9 +185,9 @@ namespace Kentico.Xperience.GoogleMaps.Tests
             }
 
 
-            [TestCase(null, TestName = "Validate_NullValue_ThrowsException")]
-            [TestCase("", TestName = "Validate_EmptyValue_ThrowsException")]
-            public async Task Validate(string value)
+            [TestCase(null, TestName = "Validate_NullValue_ReturnsNull")]
+            [TestCase("", TestName = "Validate_EmptyValue_ReturnsNull")]
+            public async Task Validate_InvalidValue_ReturnsNull(string value)
             {
                 var result = await addressValidator.Validate(value);
 
@@ -198,6 +198,24 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                     httpClientFactory.Received(0).CreateClient(GoogleMapsConstants.CLIENT_NAME);
                 });
+            }
+
+
+            [Test]
+            public void Validate_InvalidAPIKey_ThrowsException()
+            {
+                MockHttpClient(new List<HttpResponseMessage>
+                {
+                    GetMessage(new AddressValidationResponse
+                    {
+                        Error = new AddressValidationError
+                        {
+                            Message = "Invalid API key."
+                        }
+                    })
+                });
+
+                Assert.ThrowsAsync<InvalidOperationException>(async () => await addressValidator.Validate("Address"));
             }
         }
     }
