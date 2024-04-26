@@ -14,7 +14,8 @@ namespace Kentico.Xperience.GoogleMaps.Tests
     public class StartupExtensionsTests
     {
         [TestFixture]
-        public class AddGoogleMapsTests : UnitTests
+        [Category.Unit]
+        public class AddGoogleMapsTests
         {
             private const string APIKEY = "APIKey";
 
@@ -58,7 +59,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
             [TestCase(null, TestName = "AddGoogleMaps_APIKeyNull_ThrowsException")]
             [TestCase("", TestName = "AddGoogleMaps_APIKeyEmpty_ThrowsException")]
-            public void AddGoogleMaps(string apiKey)
+            public void AddGoogleMaps_InvalidOptions_ThrowsException(string apiKey)
             {
                 configuration = new ConfigurationBuilder()
                     .AddInMemoryCollection(new Dictionary<string, string>

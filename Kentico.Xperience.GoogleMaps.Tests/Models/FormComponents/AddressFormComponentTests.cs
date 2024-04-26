@@ -1,18 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CMS.Core;
 using CMS.Tests;
-using Kentico.Xperience.GoogleMaps;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Kentico.Xperience.RepoTemplate.Models.FormComponents
+namespace Kentico.Xperience.GoogleMaps.Tests
 {
     public class AddressFormComponentTests
     {
-        public class ValidateTests : UnitTests
+        [TestFixture]
+        [Category.Unit]
+        public class ValidateTests
         {
             private AddressFormComponent addressFormComponent;
             private IAddressValidator addressValidator;
             private IAddressGeocoder addressGeocoder;
+            private ILocalizationService localizationService;
             private ValidationContext validationContext;
 
 
@@ -21,8 +24,9 @@ namespace Kentico.Xperience.RepoTemplate.Models.FormComponents
             {
                 addressValidator = Substitute.For<IAddressValidator>();
                 addressGeocoder = Substitute.For<IAddressGeocoder>();
+                localizationService = Substitute.For<ILocalizationService>();
 
-                addressFormComponent = new AddressFormComponent(addressValidator, addressGeocoder);
+                addressFormComponent = new AddressFormComponent(addressValidator, addressGeocoder, localizationService);
                 addressFormComponent.LoadProperties(new AddressFormComponentProperties());
 
                 validationContext = new ValidationContext(addressFormComponent);
