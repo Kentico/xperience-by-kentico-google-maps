@@ -1,4 +1,4 @@
-﻿﻿.xperience-address-dropdown {
+﻿.xperience-address-dropdown {
     box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.3);
     background-color: white;
     width: 100%;
@@ -20,4 +20,10 @@
 .xperience-address-dropdown-item.active {
     background-color: whitesmoke;
     border: 0.1rem solid black;
+}
+
+.xperience-address-dropdown-item-logo {
+    padding: 0.6rem;
+    display: flex;
+    justify-content: center;
 }

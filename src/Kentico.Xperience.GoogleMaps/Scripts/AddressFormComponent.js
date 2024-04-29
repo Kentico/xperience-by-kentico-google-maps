@@ -2,6 +2,7 @@
     const input = document.getElementById(inputId);
     const dropdown = document.getElementById(dropdownId);
     const currentLocationButton = enableCurrentLocationSuggestions ? getCurrentLocationButton(input, dropdown) : undefined;
+    const logoItemId = 'xperienceAddressDropdownItemLogo';
     let activeItemIndex = -1;
 
     input.addEventListener('input', function () {
@@ -9,6 +10,8 @@
             getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
         } else {
             showDropdown(dropdown, currentLocationButton);
+            const logoItem = createLogoItem();
+            dropdown.appendChild(logoItem);
         }
         activeItemIndex = -1;
     });
@@ -16,6 +19,8 @@
     input.addEventListener('focusin', function () {
         if (input.value.length === 0) {
             showDropdown(dropdown, currentLocationButton);
+            const logoItem = createLogoItem();
+            dropdown.appendChild(logoItem);
         } else {
             getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
         }
@@ -23,11 +28,11 @@
     });
 
     input.addEventListener('focusout', function () {
-        dropdown.style.display = 'none';
+        hideDropdown();
     });
 
     input.addEventListener('keydown', function (e) {
-        const items = dropdown.childNodes;
+        const items = Array.from(dropdown.childNodes).filter(i => i.id !== logoItemId);
         if (e.key === 'ArrowDown') {
             activeItemIndex = (activeItemIndex + 1) % items.length;
         } else if (e.key === 'ArrowUp') {
@@ -107,6 +112,9 @@
 
                         dropdown.appendChild(item);
                     }
+
+                    const logoItem = createLogoItem();
+                    dropdown.appendChild(logoItem);
                 }
             }
         );
@@ -130,5 +138,13 @@
         item.className = 'xperience-address-dropdown-item';
 
         return item;
+    }
+
+    function createLogoItem() {
+        const logoItem = document.createElement('div');
+        logoItem.innerHTML = '<img src="https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3.png" />';
+        logoItem.className = 'xperience-address-dropdown-item-logo';
+        logoItem.id = logoItemId;
+        return logoItem;
     }
 }
