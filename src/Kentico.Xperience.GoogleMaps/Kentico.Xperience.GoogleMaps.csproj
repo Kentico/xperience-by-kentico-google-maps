@@ -4,11 +4,19 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 	
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\GoogleMapsResources.resx">
-			<ExcludeFromManifest>true</ExcludeFromManifest>
-		</EmbeddedResource>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GoogleMapsResources.resx">
+      <ExcludeFromManifest>true</ExcludeFromManifest>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Remove="Scripts\AddressFormComponent.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<EmbeddedResource Include="Scripts\AddressFormComponent.js" />
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -23,11 +31,11 @@
     <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
-<ItemGroup>
-  <PackageReference Update="SonarAnalyzer.CSharp">
-    <PrivateAssets>all</PrivateAssets>
-    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-  </PackageReference>
-</ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
