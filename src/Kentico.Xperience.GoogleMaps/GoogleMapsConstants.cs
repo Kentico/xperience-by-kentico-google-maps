@@ -32,12 +32,18 @@
         /// <summary>
         /// URL of Google Maps plugin.
         /// </summary>
-        public const string PLUGIN_URL = "https://maps.googleapis.com/maps/api/js?key={0}&libraries=places";
+        public const string PLUGIN_URL = "https://maps.googleapis.com/maps/api/js?key={0}&loading=async&libraries=places";
 
 
         /// <summary>
-        /// URL of the script file for the <see cref="AddressFormComponent"/>.
+        /// Path of the script file for the <see cref="AddressFormComponent"/>.
         /// </summary>
-        public const string ADDRESS_FORM_COMPONENT_SCRIPT_URL = "~/Scripts/AddressFormComponent.js";
+        public const string ADDRESS_FORM_COMPONENT_SCRIPT_PATH = "Kentico.Xperience.GoogleMaps.Scripts.AddressFormComponent.js";
+
+
+        /// <summary>
+        /// Path of the styles file for the <see cref="AddressFormComponent"/>.
+        /// </summary>
+        public const string ADDRESS_FORM_COMPONENT_STYLE_PATH = "Kentico.Xperience.GoogleMaps.Scripts.AddressFormComponent.css";
     }
 }

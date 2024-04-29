@@ -6,6 +6,8 @@
 
 @{
     var htmlAttributes = ViewData.Kentico().GetEditorHtmlAttributes();
+    htmlAttributes["id"] = Model.Properties.InputId;
 }
 
 @Html.TextBoxFor(m => m.Address, htmlAttributes)
+<div id="XperienceAddressAutocompleteDropdown" style="display: none;"></div>

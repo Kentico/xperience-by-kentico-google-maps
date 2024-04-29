@@ -14,8 +14,8 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         /// <summary>
-        /// Renders script tag with src set to <see cref="AddressFormComponent"/>'s script file.
+        /// Renders tags necessary for <see cref="AddressFormComponent"/>'s autocomplete functionality.
         /// </summary>
-        IHtmlContent RenderAddressFormComponentScriptTag();
+        IHtmlContent RenderAddressFormComponentTags();
     }
 }

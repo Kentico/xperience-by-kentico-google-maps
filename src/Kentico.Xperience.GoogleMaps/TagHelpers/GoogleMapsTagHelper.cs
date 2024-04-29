@@ -28,7 +28,8 @@ namespace Kentico.Xperience.GoogleMaps
 
             output.TagName = null;
             output.Content.SetHtmlContent(new HtmlContentBuilder()
-                .AppendLine(googleMapsScriptsRenderer.RenderAddressFormComponentScriptTag()));
+                .AppendLine(googleMapsScriptsRenderer.RenderPluginScriptTag())
+                .AppendLine(googleMapsScriptsRenderer.RenderAddressFormComponentTags()));
         }
     }
 }

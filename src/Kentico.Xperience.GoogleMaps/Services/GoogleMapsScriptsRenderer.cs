@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using System.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 
 namespace Kentico.Xperience.GoogleMaps
 {
@@ -10,30 +10,49 @@ namespace Kentico.Xperience.GoogleMaps
     /// </summary>
     internal class GoogleMapsScriptsRenderer : IGoogleMapsScriptsRenderer
     {
-        /// <inheritdoc/>
-        public IHtmlContent RenderAddressFormComponentScriptTag()
+        private readonly IOptions<GoogleMapsOptions> options;
+
+
+        /// <summary>
+        /// Initializes an instance of the <see cref="GoogleMapsScriptsRenderer"/> class.
+        /// </summary>
+        public GoogleMapsScriptsRenderer(IOptions<GoogleMapsOptions> options)
         {
-            string scriptBody = GetEmbeddedResource("Kentico.Xperience.GoogleMaps.Scripts.AddressFormComponent.js");
+            this.options = options;
+        }
+
+
+        /// <inheritdoc/>
+        public IHtmlContent RenderAddressFormComponentTags()
+        {
+            string scriptBody = GetEmbeddedResource(GoogleMapsConstants.ADDRESS_FORM_COMPONENT_SCRIPT_PATH);
+            string styleBody = GetEmbeddedResource(GoogleMapsConstants.ADDRESS_FORM_COMPONENT_STYLE_PATH);
             return new HtmlContentBuilder()
-                .AppendHtml($"<script>{scriptBody}</script>");
+                .AppendHtml(RenderTag("script", tagBody: scriptBody))
+                .AppendHtml(RenderTag("style", tagBody: styleBody));
         }
 
 
         /// <inheritdoc/>
         public IHtmlContent RenderPluginScriptTag()
         {
-            return RenderScriptTag(GoogleMapsConstants.PLUGIN_URL);
+            string url = string.Format(GoogleMapsConstants.PLUGIN_URL, options.Value.APIKey);
+            return new HtmlContentBuilder()
+               .AppendHtml(RenderTag("script", url));
         }
 
 
-        private IHtmlContent RenderScriptTag(string scriptUrl)
+        private IHtmlContent RenderTag(string tagName, string? tagUrl = null, string? tagBody = null)
         {
-            string scriptSrc = HttpUtility.HtmlAttributeEncode(HttpUtility.UrlPathEncode(scriptUrl));
-
-            var script = new TagBuilder("script");
-            script.Attributes.Add("src", scriptSrc);
-            script.Attributes.Add("async", string.Empty);
-            script.Attributes.Add("type", "text/javascript");
+            var script = new TagBuilder(tagName);
+            if (tagUrl != null)
+            {
+                script.Attributes.Add("src", tagUrl);
+            }
+            if (tagBody != null)
+            {
+                script.InnerHtml.AppendHtml(tagBody);
+            }
 
             return script;
         }

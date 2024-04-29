@@ -1,0 +1,18 @@
+﻿﻿#XperienceAddressAutocompleteDropdown {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    width: 100%;
+    position: absolute;
+    z-index: 1000;
+}
+
+#XperienceAddressAutocompleteDropdown div {
+    padding: 10px;
+    font-size: 15px;
+    border-bottom: 1px solid #eaeaea;
+    cursor: pointer;
+}
+
+    #XperienceAddressAutocompleteDropdown div:hover {
+        background-color: #fafafa;
+    }
