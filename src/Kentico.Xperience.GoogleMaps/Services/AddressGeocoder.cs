@@ -13,7 +13,13 @@ namespace Kentico.Xperience.GoogleMaps
         private readonly IEventLogService eventLogService;
         private readonly IOptions<GoogleMapsOptions> options;
 
-        private readonly IEnumerable<string> apiErrors;
+        // https://developers.google.com/maps/documentation/geocoding/requests-geocoding#StatusCodes
+        private static readonly Lazy<HashSet<string>> apiErrors = new(() =>
+        {
+            string[] errors = ["OVER_DAILY_LIMIT", "OVER_QUERY_LIMIT", "REQUEST_DENIED", "UNKNOWN_ERROR"];
+
+            return new HashSet<string>(errors, StringComparer.OrdinalIgnoreCase);
+        });
 
 
         /// <summary>
@@ -24,9 +30,6 @@ namespace Kentico.Xperience.GoogleMaps
             this.httpClientFactory = httpClientFactory;
             this.eventLogService = eventLogService;
             this.options = options;
-
-            // https://developers.google.com/maps/documentation/geocoding/requests-geocoding#StatusCodes
-            apiErrors = new List<string> { "OVER_DAILY_LIMIT", "OVER_QUERY_LIMIT", "REQUEST_DENIED", "UNKNOWN_ERROR" };
         }
 
 
@@ -41,9 +44,9 @@ namespace Kentico.Xperience.GoogleMaps
             var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
             if (geocodeResponse is null || geocodeResponse.Status != "OK" || geocodeResponse.Results?.Count() != 1)
             {
-                if (apiErrors.Contains(geocodeResponse?.Status))
+                if (geocodeResponse?.Status is not null && IsApiError(geocodeResponse.Status))
                 {
-                    eventLogService.LogError(nameof(AddressValidator), nameof(Geocode), $"{nameof(SendGeocodeRequest)} returned {geocodeResponse?.Status} status.");
+                    eventLogService.LogError(nameof(AddressValidator), nameof(Geocode), $"{nameof(SendGeocodeRequest)} returned {geocodeResponse.Status} status.");
                     throw new InvalidOperationException("Geocoding API error.");
                 }
                 return null;
@@ -65,9 +68,14 @@ namespace Kentico.Xperience.GoogleMaps
             catch (Exception ex)
             {
                 eventLogService.LogException(nameof(AddressGeocoder), nameof(SendGeocodeRequest), ex, additionalMessage: $"{nameof(SendGeocodeRequest)} failed. Request path: {url}");
+                throw new InvalidOperationException("Geocoding API error.");
             }
+        }
 
-            return null;
+
+        private bool IsApiError(string status)
+        {
+            return apiErrors.Value.Contains(status);
         }
 
 

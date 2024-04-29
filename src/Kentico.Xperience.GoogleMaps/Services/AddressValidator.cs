@@ -71,9 +71,8 @@ namespace Kentico.Xperience.GoogleMaps
             catch (Exception ex)
             {
                 eventLogService.LogException(nameof(AddressValidator), nameof(SendValidateAddressRequest), ex, additionalMessage: $"{nameof(SendValidateAddressRequest)} failed. Request path: {url}");
+                throw new InvalidOperationException("Address validation API error.");
             }
-
-            return null;
         }
 
 
