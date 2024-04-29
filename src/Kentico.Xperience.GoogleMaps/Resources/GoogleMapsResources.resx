@@ -98,6 +98,15 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="addressformcomponent.name" xml:space="preserve">
+		<value>Address</value>
+	</data>
+	<data name="addressformcomponent.validationerror" xml:space="preserve">
+		<value>Entered value is not a valid address.</value>
+	</data>
+	<data name="addressformcomponent.servererror" xml:space="preserve">
+		<value>We have encountered unexpected server error.</value>
+	</data>
 	<data name="addressformcomponent.properties.defaultvalue.label" xml:space="preserve">
 		<value>Default value</value>
 	</data>
@@ -111,21 +120,30 @@
 		<value>Enable company names</value>
 	</data>
 	<data name="addressformcomponent.properties.enablecompanynames.tooltip" xml:space="preserve">
-		<value>This option enables suggestions and validation for company names.</value>
+		<value>This option enables suggestions and validation for company names when it is for address enabled.</value>
 	</data>
 	<data name="addressformcomponent.properties.supportedcountries.label" xml:space="preserve">
 		<value>Supported countries</value>
 	</data>
 	<data name="addressformcomponent.properties.supportedcountries.explanationtext" xml:space="preserve">
-		<value>Insert countries you want to support separated by colons. Use Alpha-2 code for countries: &lt;a href="https://www.iban.com/country-codes"&gt;Country codes&lt;/a&gt;</value>
+		<value>Insert countries you want to support separated by colons or nothing to support all. Use Alpha-2 code for countries: &lt;a href="https://www.iban.com/country-codes"&gt;Country codes&lt;/a&gt;</value>
 	</data>
-	<data name="addressformcomponent.name" xml:space="preserve">
-		<value>Address</value>
+	<data name="addressformcomponent.properties.suggestionsLanguage.label" xml:space="preserve">
+		<value>Suggestions language</value>
 	</data>
-	<data name="addressformcomponent.validationerror" xml:space="preserve">
-		<value>Entered value is not a valid address.</value>
+	<data name="addressformcomponent.properties.suggestionsLanguage.tooltip" xml:space="preserve">
+		<value>Insert code of language you want to suggestion to be in or nothing for default one. Use Google's code for language: &lt;a href="https://developers.google.com/maps/faq#languagesupport"&gt;Language codes&lt;/a&gt;</value>
 	</data>
-	<data name="addressformcomponent.servererror" xml:space="preserve">
-		<value>We have encountered unexpected server error.</value>
+	<data name="addressformcomponent.properties.enablesuggestions.label" xml:space="preserve">
+		<value>Enable address suggestions</value>
+	</data>
+	<data name="addressformcomponent.properties.enablesuggestions.tooltip" xml:space="preserve">
+		<value>This option enables address suggestions.</value>
+	</data>
+	<data name="addressformcomponent.properties.enablecurrentlocationsuggestions.label" xml:space="preserve">
+		<value>Enable current location suggestions</value>
+	</data>
+	<data name="addressformcomponent.properties.enablecurrentlocationsuggestions.tooltip" xml:space="preserve">
+		<value>This option enables suggestions based on current location.</value>
 	</data>
 </root>
