@@ -98,8 +98,11 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="addressformcomponent.properties.defaultvalue.label" xml:space="preserve">
+		<value>Default value</value>
+	</data>
 	<data name="addressformcomponent.properties.enablevalidation.label" xml:space="preserve">
-		<value>Enable Validation</value>
+		<value>Enable validation</value>
 	</data>
 	<data name="addressformcomponent.properties.enablevalidation.tooltip" xml:space="preserve">
 		<value>This option enables validation of addresses using Google Maps API.</value>

@@ -10,7 +10,7 @@ namespace Kentico.Xperience.GoogleMaps
     public class AddressFormComponentProperties : FormComponentProperties<string>
     {
         ///<inheritdoc/>
-        [TextInputComponent(Label = "{$kentico.formbuilder.defaultvalue$}")]
+        [TextInputComponent(Label = "{$addressformcomponent.properties.defaultvalue.label$}")]
         public override string DefaultValue { get; set; } = string.Empty;
 
 

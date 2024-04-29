@@ -15,7 +15,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
     {
         [TestFixture]
         [Category.Unit]
-        public class AddGoogleMapsTests
+        public class AddXperienceGoogleMapsTests
         {
             private const string APIKEY = "APIKey";
 
@@ -31,7 +31,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
 
             [Test]
-            public void AddGoogleMaps_ValidOptions_SetupOptionsAddHttpClient()
+            public void AddXperienceGoogleMaps_ValidOptions_SetupOptionsAddHttpClient()
             {
                 configuration = new ConfigurationBuilder()
                     .AddInMemoryCollection(new Dictionary<string, string>
@@ -57,9 +57,9 @@ namespace Kentico.Xperience.GoogleMaps.Tests
             }
 
 
-            [TestCase(null, TestName = "AddGoogleMaps_APIKeyNull_ThrowsException")]
-            [TestCase("", TestName = "AddGoogleMaps_APIKeyEmpty_ThrowsException")]
-            public void AddGoogleMaps_InvalidOptions_ThrowsException(string apiKey)
+            [TestCase(null, TestName = "AddXperienceGoogleMaps_APIKeyNull_ThrowsException")]
+            [TestCase("", TestName = "AddXperienceGoogleMaps_APIKeyEmpty_ThrowsException")]
+            public void AddXperienceGoogleMaps_InvalidOptions_ThrowsException(string apiKey)
             {
                 configuration = new ConfigurationBuilder()
                     .AddInMemoryCollection(new Dictionary<string, string>
@@ -69,6 +69,13 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                     .Build();
 
                 Assert.That(() => services.AddXperienceGoogleMaps(configuration), Throws.InvalidOperationException);
+            }
+
+
+            [Test]
+            public void AddXperienceGoogleMaps_ConfigurationNull_ThrowsException()
+            {
+                Assert.That(() => services.AddXperienceGoogleMaps(null), Throws.ArgumentNullException);
             }
         }
     }

@@ -16,6 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="configuration">Configuration.</param>
         public static IServiceCollection AddXperienceGoogleMaps(this IServiceCollection services, IConfiguration configuration)
         {
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             var googleMapsSection = configuration.GetSection(GoogleMapsConstants.SECTION_KEY);
             services.Configure<GoogleMapsOptions>(googleMapsSection);
 
@@ -25,8 +30,6 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 throw new InvalidOperationException(nameof(googleMapsOptions.APIKey));
             }
-
-            services.Configure<GoogleMapsOptions>(googleMapsSection);
 
             services.AddHttpClient(GoogleMapsConstants.CLIENT_NAME, client
                 => client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")));
