@@ -1,0 +1,11 @@
+﻿@using Kentico.Forms.Web.Mvc
+@using Kentico.Web.Mvc
+@using Kentico.Xperience.GoogleMaps
+
+@model AddressFormComponent
+
+@{
+    var htmlAttributes = ViewData.Kentico().GetEditorHtmlAttributes();
+}
+
+@Html.TextBoxFor(m => m.Address, htmlAttributes)
