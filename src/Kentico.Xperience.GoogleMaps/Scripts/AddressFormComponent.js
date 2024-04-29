@@ -1,82 +1,127 @@
-﻿(function () {
-    function init() {
-        var input = document.getElementById('XperienceAddressInput');
-        var dropdown = document.getElementById('XperienceAddressAutocompleteDropdown');
-        var service = new google.maps.places.AutocompleteService();
+﻿function initializeAutocomplete(inputId, dropdownId, supportedCountries) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+    const currentLocationButton = getCurrentLocationButton(input, dropdown);
+    let activeItemIndex = -1;
 
-        var currentLocationButton = document.createElement('div');
-        currentLocationButton.textContent = "Current Location";
+    input.addEventListener('input', function () {
+        if (input.value.length > 0) {
+            getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
+        } else {
+            showDropdown(dropdown, currentLocationButton);
+        }
+        activeItemIndex = -1;
+    });
 
-        currentLocationButton.addEventListener('mousedown', function () {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var geolocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    var geocoder = new google.maps.Geocoder;
-                    geocoder.geocode({ 'location': geolocation }, function (results, status) {
-                        if (status === 'OK') {
-                            if (results[0]) {
-                                input.value = results[0].formatted_address;
-                            } else {
-                                window.alert('No results found');
-                            }
-                        } else {
-                            window.alert('Geocoder failed due to: ' + status);
-                        }
-                    });
-                });
+    input.addEventListener('focusin', function () {
+        if (input.value.length === 0) {
+            showDropdown(dropdown, currentLocationButton);
+        } else {
+            getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
+        }
+        activeItemIndex = -1;
+    });
+
+    input.addEventListener('focusout', function () {
+        dropdown.style.display = 'none';
+    });
+
+    input.addEventListener('keydown', function (e) {
+        const items = dropdown.childNodes;
+        if (e.key === 'ArrowDown') {
+            activeItemIndex = (activeItemIndex + 1) % items.length;
+        } else if (e.key === 'ArrowUp') {
+            activeItemIndex = (activeItemIndex - 1 + items.length) % items.length;
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (activeItemIndex > 0) {
+                input.value = items[activeItemIndex].textContent;
+                hideDropdown(dropdown);
+            } else if (activeItemIndex === 0) {
+                currentLocationButton.dispatchEvent(new Event('mousedown'));
             }
-            dropdown.style.display = 'none';
-        });
+        }
 
-        function startAutocomplete() {
-            service.getPlacePredictions({ input: input.value, componentRestrictions: { country: 'cz' } }, function (predictions, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    dropdown.innerHTML = '';
-                    dropdown.appendChild(currentLocationButton);
-                    predictions.forEach(function (prediction) {
-                        var item = document.createElement('div');
-                        item.textContent = prediction.description;
-                        item.addEventListener('mousedown', function () {
-                            input.value = prediction.description;
-                            dropdown.style.display = 'none';
-                        });
-                        dropdown.appendChild(item);
-                    });
-                    dropdown.style.display = 'block';
-                }
+        for (let i = 0; i < items.length; i++) {
+            if (i === activeItemIndex) {
+                items[i].classList.add('active');
+            } else {
+                items[i].classList.remove('active');
+            }
+        }
+    });
+}
+
+function getCurrentLocationButton(input, dropdown) {
+    const currentLocationButton = createDropdownItem('Current location');
+
+    currentLocationButton.addEventListener('mousedown', function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                var geocoder = new google.maps.Geocoder;
+                geocoder.geocode({ 'location': geolocation }, function (results, status) {
+                    if (status === 'OK') {
+                        if (results[0]) {
+                            input.value = results[0].formatted_address;
+                        } else {
+                            window.alert('No results found');
+                        }
+                    } else {
+                        window.alert('Geocoder failed due to: ' + status);
+                    }
+                });
             });
         }
 
-        input.addEventListener('input', function () {
-            if (input.value.length > 0) {
-                startAutocomplete();
-            } else {
-                dropdown.innerHTML = '';
-                dropdown.appendChild(currentLocationButton);
-                dropdown.style.display = 'block';
-            }
-        });
+        hideDropdown(dropdown);
+    });
 
-        input.addEventListener('focusin', function () {
-            if (input.value.length === 0) {
-                dropdown.innerHTML = '';
-                dropdown.appendChild(currentLocationButton);
-                dropdown.style.display = 'block';
-            } else {
-                startAutocomplete();
-            }
-        });
+    return currentLocationButton;
+}
 
-        input.addEventListener('focusout', function () {
-            dropdown.style.display = 'none';
-        });
-    }
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", init);
-    } else {
-        init();
-    }
-}) ();
+function getSuggestions(supportedCountries, input, dropdown, currentLocationButton) {
+    const autocompleteService = new google.maps.places.AutocompleteService();
+
+    autocompleteService.getPlacePredictions(
+        { input: input.value, componentRestrictions: supportedCountries ? { country: supportedCountries } : undefined },
+        function (predictions, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                showDropdown(dropdown, currentLocationButton);
+
+                for (prediction of predictions) {
+                    const item = createDropdownItem(prediction.description);
+
+                    item.addEventListener('mousedown', function () {
+                        input.value = prediction.description;
+                        hideDropdown(dropdown);
+                    });
+
+                    dropdown.appendChild(item);
+                }
+            }
+        }
+    );
+}
+
+function createDropdownItem(label) {
+    const item = document.createElement('div');
+    item.textContent = label;
+    item.className = 'xperience-address-dropdown-item';
+
+    return item;
+}
+
+function showDropdown(dropdown, currentLocationButton) {
+    dropdown.innerHTML = '';
+    dropdown.appendChild(currentLocationButton);
+    dropdown.style.display = 'block';
+}
+
+function hideDropdown(dropdown) {
+    dropdown.style.display = 'none';
+}
