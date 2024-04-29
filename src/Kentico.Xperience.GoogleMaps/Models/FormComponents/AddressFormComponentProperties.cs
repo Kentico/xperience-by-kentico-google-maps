@@ -37,6 +37,28 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         /// <summary>
+        /// Gets or sets the language in which suggestions are displayed.
+        /// </summary>
+        [TextInputComponent(Label = "{$addressformcomponent.properties.suggestionsLanguage.label$}", ExplanationText = "{$addressformcomponent.properties.suggestionsLanguage.explanationtext$}",
+            ExplanationTextAsHtml = true)]
+        public string SuggestionsLanguage { get; set; } = string.Empty;
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether suggestions are enabled for the address form component.
+        /// </summary>
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablesuggestions.label$}", Tooltip = "{$addressformcomponent.properties.enablesuggestions.tooltip$}")]
+        public bool EnableSuggestions { get; set; } = false;
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current location suggestions is enabled for the address form component.
+        /// </summary>
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.label$}", Tooltip = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.tooltip$}")]
+        public bool EnableCurrentLocationSuggestions { get; set; } = false;
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AddressFormComponentProperties"/> class.
         /// </summary>
         /// <remarks>

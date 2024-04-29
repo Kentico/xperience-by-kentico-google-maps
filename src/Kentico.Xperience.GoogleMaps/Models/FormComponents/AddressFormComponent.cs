@@ -71,6 +71,15 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
+        /// <summary>
+        /// Gets the label of the current location button.
+        /// </summary>
+        public string GetCurrentLocationButtonLabel()
+        {
+            return localizationService.GetString("addressformcomponent.currentlocationbutton.label");
+        }
+
+
         internal async Task<IEnumerable<ValidationResult>> ValidateInternal(List<ValidationResult> errors)
         {
             string? address = GetValue();

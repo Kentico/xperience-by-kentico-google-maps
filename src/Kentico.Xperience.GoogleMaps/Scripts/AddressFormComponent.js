@@ -1,7 +1,7 @@
-﻿function initializeAutocomplete(inputId, dropdownId, supportedCountries) {
+﻿function initializeAutocomplete(inputId, dropdownId, supportedCountries, suggestionsLanguage, currentLocationButtonLabel, enableCurrentLocationSuggestions, enableCompanyNames) {
     const input = document.getElementById(inputId);
     const dropdown = document.getElementById(dropdownId);
-    const currentLocationButton = getCurrentLocationButton(input, dropdown);
+    const currentLocationButton = enableCurrentLocationSuggestions ? getCurrentLocationButton(input, dropdown) : undefined;
     let activeItemIndex = -1;
 
     input.addEventListener('input', function () {
@@ -34,11 +34,11 @@
             activeItemIndex = (activeItemIndex - 1 + items.length) % items.length;
         } else if (e.key === 'Enter') {
             e.preventDefault();
-            if (activeItemIndex > 0) {
+            if (activeItemIndex === 0 && enableCurrentLocationSuggestions) {
+                currentLocationButton.dispatchEvent(new Event('mousedown'));
+            } else if (activeItemIndex >= 0) {
                 input.value = items[activeItemIndex].textContent;
                 hideDropdown(dropdown);
-            } else if (activeItemIndex === 0) {
-                currentLocationButton.dispatchEvent(new Event('mousedown'));
             }
         }
 
@@ -50,78 +50,85 @@
             }
         }
     });
-}
 
-function getCurrentLocationButton(input, dropdown) {
-    const currentLocationButton = createDropdownItem('Current location');
+    function getCurrentLocationButton() {
+        const currentLocationButton = createDropdownItem(currentLocationButtonLabel);
 
-    currentLocationButton.addEventListener('mousedown', function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var geolocation = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
+        currentLocationButton.addEventListener('mousedown', function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
 
-                var geocoder = new google.maps.Geocoder;
-                geocoder.geocode({ 'location': geolocation }, function (results, status) {
-                    if (status === 'OK') {
-                        if (results[0]) {
-                            input.value = results[0].formatted_address;
+                    var geocoder = new google.maps.Geocoder;
+                    geocoder.geocode({ 'location': geolocation }, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                input.value = results[0].formatted_address;
+                            } else {
+                                window.alert('No results found');
+                            }
                         } else {
-                            window.alert('No results found');
+                            window.alert('Geocoder failed due to: ' + status);
                         }
-                    } else {
-                        window.alert('Geocoder failed due to: ' + status);
-                    }
-                });
-            });
-        }
-
-        hideDropdown(dropdown);
-    });
-
-    return currentLocationButton;
-}
-
-function getSuggestions(supportedCountries, input, dropdown, currentLocationButton) {
-    const autocompleteService = new google.maps.places.AutocompleteService();
-
-    autocompleteService.getPlacePredictions(
-        { input: input.value, componentRestrictions: supportedCountries ? { country: supportedCountries } : undefined },
-        function (predictions, status) {
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                showDropdown(dropdown, currentLocationButton);
-
-                for (prediction of predictions) {
-                    const item = createDropdownItem(prediction.description);
-
-                    item.addEventListener('mousedown', function () {
-                        input.value = prediction.description;
-                        hideDropdown(dropdown);
                     });
+                });
+            }
 
-                    dropdown.appendChild(item);
+            hideDropdown(dropdown);
+        });
+
+        return currentLocationButton;
+    }
+
+    function getSuggestions() {
+        const autocompleteService = new google.maps.places.AutocompleteService();
+
+        autocompleteService.getPlacePredictions(
+            {
+                input: input.value,
+                componentRestrictions: supportedCountries ? { country: supportedCountries } : undefined,
+                types: !enableCompanyNames ? ['address'] : undefined,
+                language: suggestionsLanguage
+            },
+            function (predictions, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    showDropdown(dropdown, currentLocationButton);
+
+                    for (prediction of predictions) {
+                        const item = createDropdownItem(prediction.description);
+
+                        item.addEventListener('mousedown', function () {
+                            input.value = prediction.description;
+                            hideDropdown(dropdown);
+                        });
+
+                        dropdown.appendChild(item);
+                    }
                 }
             }
+        );
+    }
+
+    function showDropdown() {
+        dropdown.innerHTML = '';
+        if (enableCurrentLocationSuggestions) {
+            dropdown.appendChild(currentLocationButton);
         }
-    );
-}
+        dropdown.style.display = 'block';
+    }
 
-function createDropdownItem(label) {
-    const item = document.createElement('div');
-    item.textContent = label;
-    item.className = 'xperience-address-dropdown-item';
+    function hideDropdown() {
+        dropdown.style.display = 'none';
+    }
 
-    return item;
-}
+    function createDropdownItem(label) {
+        const item = document.createElement('div');
+        item.textContent = label;
+        item.className = 'xperience-address-dropdown-item';
 
-function showDropdown(dropdown, currentLocationButton) {
-    dropdown.innerHTML = '';
-    dropdown.appendChild(currentLocationButton);
-    dropdown.style.display = 'block';
-}
-
-function hideDropdown(dropdown) {
-    dropdown.style.display = 'none';
+        return item;
+    }
 }
