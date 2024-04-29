@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CMS.Core;
+﻿using CMS.Core;
 using CMS.Tests;
 using NSubstitute;
 using NUnit.Framework;
@@ -10,13 +9,12 @@ namespace Kentico.Xperience.GoogleMaps.Tests
     {
         [TestFixture]
         [Category.Unit]
-        public class ValidateTests
+        public class ValidateInternalTests
         {
             private AddressFormComponent addressFormComponent;
             private IAddressValidator addressValidator;
             private IAddressGeocoder addressGeocoder;
             private ILocalizationService localizationService;
-            private ValidationContext validationContext;
 
             private const string ERROR_MESSAGE = "Entered value is not a valid address.";
 
@@ -31,30 +29,28 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
                 addressFormComponent = new AddressFormComponent(addressValidator, addressGeocoder, localizationService);
                 addressFormComponent.LoadProperties(new AddressFormComponentProperties());
-
-                validationContext = new ValidationContext(addressFormComponent);
             }
 
 
             [Test]
-            public void Validate_DisabledAddressValidationAndCompanyNames_KeepsOriginalValue()
+            public async Task ValidateInternal_DisabledAddressValidationAndCompanyNames_KeepsOriginalValue()
             {
                 const string ADDRESS = "1600 Amphitheatre Parkway, Mountain View, CA";
 
                 addressFormComponent.SetValue(ADDRESS);
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledAddressValidation_ValidAddress_SetsValidAddress()
+            public async Task ValidateInternal_EnabledAddressValidation_ValidAddress_SetsValidAddress()
             {
                 const string VALID_ADDRESS = "1600 Amphitheatre Parkway, Mountain View, CA";
 
@@ -67,18 +63,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.SetValue(VALID_ADDRESS);
                 addressFormComponent.Properties.EnableValidation = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(VALID_ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(VALID_ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledAddressValidation_InvalidAddress_AddsError()
+            public async Task ValidateInternal_EnabledAddressValidation_InvalidAddress_AddsError()
             {
                 const string INVALID_ADDRESS = "This is invalid address.";
 
@@ -90,7 +86,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.SetValue(INVALID_ADDRESS);
                 addressFormComponent.Properties.EnableValidation = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
@@ -102,7 +98,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
 
             [Test]
-            public void Validate_EnabledCompanyNames_CompanyName_SetsCompanyAddress()
+            public async Task ValidateInternal_EnabledCompanyNames_CompanyName_SetsCompanyAddress()
             {
                 const string COMPANY_NAME = "Rockstar Games";
                 const string COMPANY_ADDRESS = "622 Broadway, New York, NY 10012, USA";
@@ -112,18 +108,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.SetValue(COMPANY_NAME);
                 addressFormComponent.Properties.EnableCompanyNames = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(COMPANY_ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(COMPANY_ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledCompanyNames_InvalidCompanyName_KeepsOriginalValue()
+            public async Task ValidateInternal_EnabledCompanyNames_InvalidCompanyName_KeepsOriginalValue()
             {
                 const string INVALID_COMPANY_NAME = "This is invalid company name.";
 
@@ -132,18 +128,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.SetValue(INVALID_COMPANY_NAME);
                 addressFormComponent.Properties.EnableCompanyNames = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(INVALID_COMPANY_NAME));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(INVALID_COMPANY_NAME));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledCompanyNames_ValidAddress_SetsValidAddress()
+            public async Task ValidateInternal_EnabledCompanyNames_ValidAddress_SetsValidAddress()
             {
                 const string VALID_ADDRESS = "1600 Amphitheatre Parkway, Mountain View, CA";
 
@@ -152,18 +148,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.SetValue(VALID_ADDRESS);
                 addressFormComponent.Properties.EnableCompanyNames = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(VALID_ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(VALID_ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledAddressValidationAndCompanyNames_ValidAddress_SetsValidAddress()
+            public async Task ValidateInternal_EnabledAddressValidationAndCompanyNames_ValidAddress_SetsValidAddress()
             {
                 const string VALID_ADDRESS = "1600 Amphitheatre Parkway, Mountain View, CA";
 
@@ -178,18 +174,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.Properties.EnableCompanyNames = true;
                 addressFormComponent.Properties.EnableValidation = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(VALID_ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(VALID_ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledAddressValidationAndCompanyNames_InvalidAddress_AddsError()
+            public async Task ValidateInternal_EnabledAddressValidationAndCompanyNames_InvalidAddress_AddsError()
             {
                 const string INVALID_ADDRESS = "This is invalid address.";
 
@@ -203,7 +199,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.Properties.EnableValidation = true;
                 addressFormComponent.Properties.EnableCompanyNames = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
@@ -215,7 +211,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
 
 
             [Test]
-            public void Validate_EnabledAddressValidationAndCompanyNames_ValidCompanyName_SetsCompanyAddress()
+            public async Task ValidateInternal_EnabledAddressValidationAndCompanyNames_ValidCompanyName_SetsCompanyAddress()
             {
                 const string COMPANY_NAME = "Rockstar Games";
                 const string COMPANY_ADDRESS = "622 Broadway, New York, NY 10012, USA";
@@ -231,18 +227,18 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.Properties.EnableCompanyNames = true;
                 addressFormComponent.Properties.EnableValidation = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(addressFormComponent.Value, Is.EqualTo(COMPANY_ADDRESS));
+                    Assert.That(addressFormComponent.Address, Is.EqualTo(COMPANY_ADDRESS));
                     Assert.That(errors, Is.Empty);
                 });
             }
 
 
             [Test]
-            public void Validate_EnabledAddressValidationAndCompanyNames_InvalidCompanyName_AddsError()
+            public async Task ValidateInternal_EnabledAddressValidationAndCompanyNames_InvalidCompanyName_AddsError()
             {
                 const string INVALID_COMPANY_NAME = "This is invalid company name.";
 
@@ -252,7 +248,7 @@ namespace Kentico.Xperience.GoogleMaps.Tests
                 addressFormComponent.Properties.EnableCompanyNames = true;
                 addressFormComponent.Properties.EnableValidation = true;
 
-                var errors = addressFormComponent.Validate(validationContext);
+                var errors = await addressFormComponent.ValidateInternal([]);
 
                 Assert.Multiple(() =>
                 {

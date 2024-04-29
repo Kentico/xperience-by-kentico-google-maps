@@ -44,20 +44,20 @@ namespace Kentico.Xperience.GoogleMaps
         /// Represents the input value in the resulting HTML.
         /// </summary>
         [BindableProperty]
-        public string Value { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
 
 
         ///<inheritdoc/>
         public override string GetValue()
         {
-            return Value;
+            return Address;
         }
 
 
         ///<inheritdoc/>
         public override void SetValue(string value)
         {
-            Value = value;
+            Address = value;
         }
 
 
@@ -67,37 +67,43 @@ namespace Kentico.Xperience.GoogleMaps
             var errors = new List<ValidationResult>();
             errors.AddRange(base.Validate(validationContext));
 
-            string? value = GetValue();
+            return ValidateInternal(errors).GetAwaiter().GetResult();
+        }
+
+
+        internal async Task<IEnumerable<ValidationResult>> ValidateInternal(List<ValidationResult> errors)
+        {
+            string? address = GetValue();
 
             try
             {
                 if (Properties.EnableCompanyNames)
                 {
-                    value = addressGeocoder.Geocode(value, Properties.SupportedCountries).GetAwaiter().GetResult();
+                    address = await addressGeocoder.Geocode(address, Properties.SupportedCountries);
                 }
 
                 if (Properties.EnableValidation)
                 {
-                    var addressValidatorResult = value is not null
-                        ? addressValidator.Validate(value, Properties.SupportedCountries).GetAwaiter().GetResult()
+                    var addressValidatorResult = address is not null
+                        ? await addressValidator.Validate(address, Properties.SupportedCountries)
                         : null;
                     if (addressValidatorResult is null || !addressValidatorResult.IsValid)
                     {
-                        errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.validationerror"), new[] { nameof(Value) }));
+                        errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.validationerror"), new[] { nameof(Address) }));
                     }
                     else
                     {
-                        Value = addressValidatorResult.FormattedAddress ?? string.Empty;
+                        Address = addressValidatorResult.FormattedAddress ?? string.Empty;
                     }
                 }
-                else if (value is not null)
+                else if (address is not null)
                 {
-                    Value = value;
+                    Address = address;
                 }
             }
             catch (InvalidOperationException)
             {
-                errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.servererror"), new[] { nameof(Value) }));
+                errors.Add(new ValidationResult(localizationService.GetString("addressformcomponent.servererror"), new[] { nameof(Address) }));
             }
 
             return errors;
