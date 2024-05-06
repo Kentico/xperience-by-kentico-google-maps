@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	  <RootNamespace>Kentico.Xperience.GoogleMaps</RootNamespace>
   </PropertyGroup>
 	
   <ItemGroup>

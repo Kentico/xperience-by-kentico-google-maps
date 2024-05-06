@@ -1,15 +1,15 @@
 ﻿function initializeAutocomplete(inputId, dropdownId, supportedCountries, suggestionsLanguage, currentLocationButtonLabel, enableCurrentLocationSuggestions, enableCompanyNames) {
     const input = document.getElementById(inputId);
     const dropdown = document.getElementById(dropdownId);
-    const currentLocationButton = enableCurrentLocationSuggestions ? getCurrentLocationButton(input, dropdown) : undefined;
+    const currentLocationButton = enableCurrentLocationSuggestions ? getCurrentLocationButton() : undefined;
     const logoItemId = 'xperienceAddressDropdownItemLogo';
     let activeItemIndex = -1;
 
     input.addEventListener('input', function () {
         if (input.value.length > 0) {
-            getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
+            getSuggestions();
         } else {
-            showDropdown(dropdown, currentLocationButton);
+            showDropdown();
             const logoItem = createLogoItem();
             dropdown.appendChild(logoItem);
         }
@@ -18,11 +18,11 @@
 
     input.addEventListener('focusin', function () {
         if (input.value.length === 0) {
-            showDropdown(dropdown, currentLocationButton);
+            showDropdown();
             const logoItem = createLogoItem();
             dropdown.appendChild(logoItem);
         } else {
-            getSuggestions(supportedCountries, input, dropdown, currentLocationButton);
+            getSuggestions();
         }
         activeItemIndex = -1;
     });
@@ -43,7 +43,7 @@
                 currentLocationButton.dispatchEvent(new Event('mousedown'));
             } else if (activeItemIndex >= 0) {
                 input.value = items[activeItemIndex].textContent;
-                hideDropdown(dropdown);
+                hideDropdown();
             }
         }
 
@@ -82,7 +82,7 @@
                 });
             }
 
-            hideDropdown(dropdown);
+            hideDropdown();
         });
 
         return currentLocationButton;
@@ -100,14 +100,14 @@
             },
             function (predictions, status) {
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    showDropdown(dropdown, currentLocationButton);
+                    showDropdown();
 
                     for (prediction of predictions) {
                         const item = createDropdownItem(prediction.description);
 
                         item.addEventListener('mousedown', function () {
-                            input.value = prediction.description;
-                            hideDropdown(dropdown);
+                            input.value = item.textContent;
+                            hideDropdown();
                         });
 
                         dropdown.appendChild(item);

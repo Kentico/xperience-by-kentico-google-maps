@@ -17,14 +17,14 @@ namespace Kentico.Xperience.GoogleMaps
         /// <summary>
         /// Gets or sets a value indicating whether validation is enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", Tooltip = "{$addressformcomponent.properties.enablevalidation.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", ExplanationText = "{$addressformcomponent.properties.enablevalidation.explanationtext$}")]
         public bool EnableValidation { get; set; } = false;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether company names are enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", Tooltip = "{$addressformcomponent.properties.enablecompanynames.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", ExplanationText = "{$addressformcomponent.properties.enablecompanynames.explanationtext$}")]
         public bool EnableCompanyNames { get; set; } = false;
 
 
@@ -47,14 +47,14 @@ namespace Kentico.Xperience.GoogleMaps
         /// <summary>
         /// Gets or sets a value indicating whether suggestions are enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablesuggestions.label$}", Tooltip = "{$addressformcomponent.properties.enablesuggestions.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablesuggestions.label$}", ExplanationText = "{$addressformcomponent.properties.enablesuggestions.explanationtext$}")]
         public bool EnableSuggestions { get; set; } = false;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether current location suggestions is enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.label$}", Tooltip = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.tooltip$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.label$}", ExplanationText = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.explanationtext$}")]
         public bool EnableCurrentLocationSuggestions { get; set; } = false;
 
 
