@@ -10,52 +10,65 @@ namespace Kentico.Xperience.GoogleMaps
     public class AddressFormComponentProperties : FormComponentProperties<string>
     {
         ///<inheritdoc/>
-        [TextInputComponent(Label = "{$addressformcomponent.properties.defaultvalue.label$}")]
+        [TextInputComponent(Label = "{$addressformcomponent.properties.defaultvalue.label$}",
+            Order = EditingComponentOrder.DEFAULT_VALUE)]
         public override string DefaultValue { get; set; } = string.Empty;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether validation is enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}", ExplanationText = "{$addressformcomponent.properties.enablevalidation.explanationtext$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablevalidation.label$}",
+            ExplanationText = "{$addressformcomponent.properties.enablevalidation.explanationtext$}",
+            Order = 1)]
         public bool EnableValidation { get; set; } = false;
-
-
-        /// <summary>
-        /// Gets or sets a value indicating whether company names are enabled for the address form component.
-        /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}", ExplanationText = "{$addressformcomponent.properties.enablecompanynames.explanationtext$}")]
-        public bool EnableCompanyNames { get; set; } = false;
-
-
-        /// <summary>
-        /// Gets or sets the supported countries for the address form component.
-        /// </summary>
-        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}", ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}",
-            ExplanationTextAsHtml = true)]
-        public string SupportedCountries { get; set; } = string.Empty;
-
-
-        /// <summary>
-        /// Gets or sets the language in which suggestions are displayed.
-        /// </summary>
-        [TextInputComponent(Label = "{$addressformcomponent.properties.suggestionsLanguage.label$}", ExplanationText = "{$addressformcomponent.properties.suggestionsLanguage.explanationtext$}",
-            ExplanationTextAsHtml = true)]
-        public string SuggestionsLanguage { get; set; } = string.Empty;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether suggestions are enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablesuggestions.label$}", ExplanationText = "{$addressformcomponent.properties.enablesuggestions.explanationtext$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablesuggestions.label$}",
+            ExplanationText = "{$addressformcomponent.properties.enablesuggestions.explanationtext$}",
+            Order = 2)]
         public bool EnableSuggestions { get; set; } = false;
 
 
         /// <summary>
         /// Gets or sets a value indicating whether current location suggestions is enabled for the address form component.
         /// </summary>
-        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.label$}", ExplanationText = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.explanationtext$}")]
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.label$}",
+            ExplanationText = "{$addressformcomponent.properties.enablecurrentlocationsuggestions.explanationtext$}",
+            Order = 3)]
         public bool EnableCurrentLocationSuggestions { get; set; } = false;
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether company names are enabled for the address form component.
+        /// </summary>
+        [CheckBoxComponent(Label = "{$addressformcomponent.properties.enablecompanynames.label$}",
+            ExplanationText = "{$addressformcomponent.properties.enablecompanynames.explanationtext$}",
+            Order = 4)]
+        public bool EnableCompanyNames { get; set; } = false;
+
+
+        /// <summary>
+        /// Gets or sets the language in which suggestions are displayed.
+        /// </summary>
+        [TextInputComponent(Label = "{$addressformcomponent.properties.suggestionsLanguage.label$}",
+            ExplanationText = "{$addressformcomponent.properties.suggestionsLanguage.explanationtext$}",
+            ExplanationTextAsHtml = true,
+            Order = 5)]
+        public string SuggestionsLanguage { get; set; } = string.Empty;
+
+
+        /// <summary>
+        /// Gets or sets the supported countries for the address form component.
+        /// </summary>
+        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}",
+            ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}",
+            ExplanationTextAsHtml = true,
+            Order = 6)]
+        public string SupportedCountries { get; set; } = string.Empty;
 
 
         /// <summary>
