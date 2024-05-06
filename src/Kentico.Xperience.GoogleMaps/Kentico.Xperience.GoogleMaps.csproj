@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-	  <RootNamespace>Kentico.Xperience.GoogleMaps</RootNamespace>
+      <RootNamespace>Kentico.Xperience.GoogleMaps</RootNamespace>
   </PropertyGroup>
-	
+    
   <ItemGroup>
     <EmbeddedResource Include="Resources\GoogleMapsResources.resx">
       <ExcludeFromManifest>true</ExcludeFromManifest>
@@ -12,13 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<None Remove="Scripts\AddressFormComponent.css" />
-	<None Remove="Scripts\AddressFormComponent.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<EmbeddedResource Include="Scripts\AddressFormComponent.js" />
-	<EmbeddedResource Include="Scripts\AddressFormComponent.css" />
+    <EmbeddedResource Include="Scripts\AddressFormComponent.js" />
+    <EmbeddedResource Include="Scripts\AddressFormComponent.css" />
   </ItemGroup>
 
   <ItemGroup>

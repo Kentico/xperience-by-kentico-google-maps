@@ -8,10 +8,11 @@
     var htmlAttributes = ViewData.Kentico().GetEditorHtmlAttributes();
     var inputId = Html.IdFor(m => m.Address);
     var dropdownId = "dropdown" + Html.IdFor(m => m.Address);
+    var logoItemId = "logoItem" + Html.IdFor(m => m.Address);
 
     var supportedCountries = Model.Properties.SupportedCountries;
     var suggestionsLanguage = Model.Properties.SuggestionsLanguage;
-    var currentLocationButtonLabel = Model.GetCurrentLocationButtonLabel();
+    var currentLocationButtonLabel = Model.CurrentLocationButtonLabel;
 
     var enableSuggestions = Model.Properties.EnableSuggestions ? "true" : "false";
     var enableCompanyNames = Model.Properties.EnableCompanyNames ? "true" : "false";
@@ -28,6 +29,7 @@
                 initializeAutocomplete(
                     '@inputId',
                     '@dropdownId',
+                    '@logoItemId',
                     '@supportedCountries',
                     '@suggestionsLanguage',
                     '@currentLocationButtonLabel',
@@ -39,6 +41,7 @@
             initializeAutocomplete(
                 '@inputId',
                 '@dropdownId',
+                '@logoItemId',
                 '@supportedCountries',
                 '@suggestionsLanguage',
                 '@currentLocationButtonLabel',

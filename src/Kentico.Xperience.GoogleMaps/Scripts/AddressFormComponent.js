@@ -1,8 +1,16 @@
-﻿function initializeAutocomplete(inputId, dropdownId, supportedCountries, suggestionsLanguage, currentLocationButtonLabel, enableCurrentLocationSuggestions, enableCompanyNames) {
+﻿function initializeAutocomplete(
+    inputId,
+    dropdownId,
+    logoItemId,
+    supportedCountries,
+    suggestionsLanguage,
+    currentLocationButtonLabel,
+    enableCurrentLocationSuggestions,
+    enableCompanyNames
+) {
     const input = document.getElementById(inputId);
     const dropdown = document.getElementById(dropdownId);
     const currentLocationButton = enableCurrentLocationSuggestions ? getCurrentLocationButton() : undefined;
-    const logoItemId = 'xperienceAddressDropdownItemLogo';
     let activeItemIndex = -1;
 
     input.addEventListener('input', function () {
@@ -32,7 +40,7 @@
     });
 
     input.addEventListener('keydown', function (e) {
-        const items = Array.from(dropdown.childNodes).filter(i => i.id !== logoItemId);
+        const items = Array.from(dropdown.childNodes).filter((i) => i.id !== logoItemId);
         if (e.key === 'ArrowDown') {
             activeItemIndex = (activeItemIndex + 1) % items.length;
         } else if (e.key === 'ArrowUp') {
@@ -62,13 +70,13 @@
         currentLocationButton.addEventListener('mousedown', function () {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    var geolocation = {
+                    const geolocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
 
-                    var geocoder = new google.maps.Geocoder;
-                    geocoder.geocode({ 'location': geolocation }, function (results, status) {
+                    const geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ location: geolocation }, function (results, status) {
                         if (status === 'OK') {
                             if (results[0]) {
                                 input.value = results[0].formatted_address;
@@ -102,7 +110,7 @@
                 if (status === google.maps.places.PlacesServiceStatus.OK) {
                     showDropdown();
 
-                    for (prediction of predictions) {
+                    for (const prediction of predictions) {
                         const item = createDropdownItem(prediction.description);
 
                         item.addEventListener('mousedown', function () {
