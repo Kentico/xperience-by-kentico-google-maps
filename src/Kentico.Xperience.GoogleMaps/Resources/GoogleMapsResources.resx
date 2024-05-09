@@ -129,7 +129,7 @@
 		<value>Country restrictions</value>
 	</data>
 	<data name="addressformcomponent.properties.supportedcountries.explanationtext" xml:space="preserve">
-		<value>Limits address autocomplete to specified countries identified by their &lt;a href="https://developers.google.com/maps/coverage#countryregion-coverage-for-core-mapping-features"&gt;Country codes&lt;/a&gt;. Multiple values must be separated by a comma (for example: CZ, DE). Leave empty to offer suggestions for all supported locations.</value>
+		<value>Limits address autocomplete to specified countries identified by their &lt;a href="https://developers.google.com/maps/coverage#countryregion-coverage-for-core-mapping-features"&gt;Country codes&lt;/a&gt;. Multiple values must be separated by a comma (for example: US, DE). Leave empty to offer suggestions for all supported locations.</value>
 	</data>
 	<data name="addressformcomponent.properties.suggestionsLanguage.label" xml:space="preserve">
 		<value>Address suggestions language</value>

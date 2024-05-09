@@ -98,11 +98,12 @@
 
     function getSuggestions() {
         const autocompleteService = new google.maps.places.AutocompleteService();
+        const supportedCountriesList = supportedCountries.split(',').map((c) => c.trim());
 
         autocompleteService.getPlacePredictions(
             {
                 input: input.value,
-                componentRestrictions: supportedCountries ? { country: supportedCountries } : undefined,
+                componentRestrictions: supportedCountries ? { country: supportedCountriesList } : undefined,
                 types: !enableCompanyNames ? ['address'] : undefined,
                 language: suggestionsLanguage
             },
