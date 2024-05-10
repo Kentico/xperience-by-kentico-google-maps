@@ -36,6 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSingleton<IAddressValidator, AddressValidator>();
             services.AddSingleton<IAddressGeocoder, AddressGeocoder>();
+            services.AddSingleton<IGoogleMapsScriptsRenderer, GoogleMapsScriptsRenderer>();
 
             return services;
         }

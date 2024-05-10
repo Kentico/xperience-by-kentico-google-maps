@@ -9,8 +9,8 @@
         /// Validates if the address is valid.
         /// </summary>
         /// <param name="value">The address to validate.</param>
-        /// <param name="supportedCountries">Supported countries separated by colons. Use Alpha-2 code for countries. If null, all countries supported by the API.</param>
+        /// <param name="supportedCountry">Supported country in Alpha-2 code. If null, all countries supported by the API.</param>
         /// <returns>True if the address is valid, otherwise false.</returns>
-        Task<AddressValidatorResult> Validate(string value, string? supportedCountries = null);
+        Task<AddressValidatorResult> Validate(string value, string? supportedCountry = null);
     }
 }

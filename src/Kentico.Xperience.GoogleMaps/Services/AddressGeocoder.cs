@@ -34,14 +34,14 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<string?> Geocode(string value, string? supportedCountries = null)
+        public async Task<string?> Geocode(string value, string? supportedCountry = null)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return null;
             }
 
-            var geocodeResponse = await SendGeocodeRequest(value, supportedCountries);
+            var geocodeResponse = await SendGeocodeRequest(value, supportedCountry);
             if (geocodeResponse is null || geocodeResponse.Status != "OK" || geocodeResponse.Results?.Count() != 1)
             {
                 if (geocodeResponse?.Status is not null && IsApiError(geocodeResponse.Status))
@@ -55,9 +55,9 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountries)
+        private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountry)
         {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountries) ? $"country:{supportedCountries}" : null);
+            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountry) ? supportedCountry : null);
 
             var httpClient = GetHttpClient();
 

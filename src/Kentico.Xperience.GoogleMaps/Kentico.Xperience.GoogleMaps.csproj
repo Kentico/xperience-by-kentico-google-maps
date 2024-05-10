@@ -2,13 +2,19 @@
 
   <PropertyGroup>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+      <RootNamespace>Kentico.Xperience.GoogleMaps</RootNamespace>
   </PropertyGroup>
-	
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\GoogleMapsResources.resx">
-			<ExcludeFromManifest>true</ExcludeFromManifest>
-		</EmbeddedResource>
-	</ItemGroup>
+    
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GoogleMapsResources.resx">
+      <ExcludeFromManifest>true</ExcludeFromManifest>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\AddressFormComponent.js" />
+    <EmbeddedResource Include="Scripts\AddressFormComponent.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -23,11 +29,11 @@
     <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
-<ItemGroup>
-  <PackageReference Update="SonarAnalyzer.CSharp">
-    <PrivateAssets>all</PrivateAssets>
-    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-  </PackageReference>
-</ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
