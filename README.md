@@ -4,7 +4,7 @@
 
 ## Description
 
-Xperience by Kentico Google Maps integration provides allows users to add Address field with validation and autocomplete to their websites using Forms application.
+Xperience by Kentico Google Maps integration allows users to add Address field with validation and autocomplete to their websites using Forms application.
 
 ## Screenshots
 
@@ -14,7 +14,7 @@ Xperience by Kentico Google Maps integration provides allows users to add Addres
 
 | Xperience Version | Library Version |
 | ----------------- | --------------- |
-| >= 28.5.0         | 1.0.0           |
+| >= 29.0.0         | 1.0.0           |
 
 ### Dependencies
 
@@ -77,6 +77,18 @@ dotnet add package Kentico.Xperience.GoogleMaps
 	```csharp
 	<google-maps />
 	```
+
+## Customization of Autocomplete panel
+
+To customize the appearance of the autocomplete panel, you can use the following CSS classes:
+
+- `xperience-address-dropdown` - the main container of the autocomplete dropdown
+- `xperience-address-dropdown-item` - the container of each item in the dropdown
+- `xperience-address-dropdown-item:hover` - the hover effect of the dropdown item
+- `xperience-address-dropdown-item.active` - the active item in the dropdown
+- `xperience-address-dropdown-item-logo` - the container of the Google Maps logo dropdown item
+
+Remember to not break any of [Google's usage policies](https://developers.google.com/maps/documentation/places/web-service/policies).
 
 ## Contributing
 
