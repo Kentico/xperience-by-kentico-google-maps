@@ -103,7 +103,7 @@
             {
                 input: input.value,
                 componentRestrictions: supportedCountry ? { country: supportedCountry } : undefined,
-                types: !enableCompanyNames ? ['address'] : undefined,
+                types: !enableCompanyNames ? ['address'] : ['establishment', 'geocode'],
                 language: suggestionsLanguage
             },
             function (predictions, status) {

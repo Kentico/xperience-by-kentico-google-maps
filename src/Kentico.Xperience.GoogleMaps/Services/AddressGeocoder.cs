@@ -57,7 +57,7 @@ namespace Kentico.Xperience.GoogleMaps
 
         private async Task<GeocodeResponse?> SendGeocodeRequest(string value, string? supportedCountry)
         {
-            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountry) ? $"country:CZ|SK" : null);
+            string url = string.Format(GoogleMapsConstants.GEOCODE_API_URL, options.Value.APIKey, value, !string.IsNullOrEmpty(supportedCountry) ? supportedCountry : null);
 
             var httpClient = GetHttpClient();
 

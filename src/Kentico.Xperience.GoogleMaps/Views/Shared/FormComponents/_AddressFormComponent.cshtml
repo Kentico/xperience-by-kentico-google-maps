@@ -6,6 +6,7 @@
 
 @{
     var htmlAttributes = ViewData.Kentico().GetEditorHtmlAttributes();
+    htmlAttributes.Add("autocomplete", "off");
     var inputId = Html.IdFor(m => m.Address);
     var dropdownId = "dropdown" + Html.IdFor(m => m.Address);
     var logoItemId = "logoItem" + Html.IdFor(m => m.Address);
