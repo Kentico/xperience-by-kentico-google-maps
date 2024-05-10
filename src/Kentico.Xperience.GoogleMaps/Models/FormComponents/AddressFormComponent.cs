@@ -85,13 +85,13 @@ namespace Kentico.Xperience.GoogleMaps
             {
                 if (Properties.EnableCompanyNames)
                 {
-                    address = await addressGeocoder.Geocode(address, Properties.SupportedCountries);
+                    address = await addressGeocoder.Geocode(address, Properties.SupportedCountry);
                 }
 
                 if (Properties.EnableValidation)
                 {
                     var addressValidatorResult = address is not null
-                        ? await addressValidator.Validate(address, Properties.SupportedCountries)
+                        ? await addressValidator.Validate(address, Properties.SupportedCountry)
                         : null;
                     if (addressValidatorResult is null || !addressValidatorResult.IsValid)
                     {

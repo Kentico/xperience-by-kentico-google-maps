@@ -125,17 +125,17 @@
 	<data name="addressformcomponent.properties.enablecompanynames.explanationtext" xml:space="preserve">
 		<value>Suggest addresses based on provided business and establishment names.</value>
 	</data>
-	<data name="addressformcomponent.properties.supportedcountries.label" xml:space="preserve">
+	<data name="addressformcomponent.properties.supportedcountry.label" xml:space="preserve">
 		<value>Country restrictions</value>
 	</data>
-	<data name="addressformcomponent.properties.supportedcountries.explanationtext" xml:space="preserve">
-		<value>Limits address autocomplete to specified countries identified by their &lt;a href="https://developers.google.com/maps/coverage#countryregion-coverage-for-core-mapping-features"&gt;Country codes&lt;/a&gt;. Multiple values must be separated by a comma (for example: US, DE). Leave empty to offer suggestions for all supported locations.</value>
+	<data name="addressformcomponent.properties.supportedcountry.explanationtext" xml:space="preserve">
+		<value>Limits address autocomplete to specified country identified by its &lt;a href="https://developers.google.com/maps/coverage#countryregion-coverage-for-core-mapping-features"&gt;Country code&lt;/a&gt;. Leave empty to offer suggestions for all supported locations.</value>
 	</data>
 	<data name="addressformcomponent.properties.suggestionsLanguage.label" xml:space="preserve">
 		<value>Address suggestions language</value>
 	</data>
 	<data name="addressformcomponent.properties.suggestionsLanguage.explanationtext" xml:space="preserve">
-		<value>The preferred language for addresses suggested by the component. Enter the &lt;a href="https://developers.google.com/maps/faq#languagesupport"&gt;Language codes&lt;/a&gt; of the language in which to return the suggestions. If left empty, the component attempts to determine the user's location using their browser locale.</value>
+		<value>The preferred language for addresses suggested by the component. Enter the &lt;a href="https://developers.google.com/maps/faq#languagesupport"&gt;Language code&lt;/a&gt; of the language in which to return the suggestions. If left empty, the component attempts to determine the user's location using their browser locale.</value>
 	</data>
 	<data name="addressformcomponent.properties.enablesuggestions.label" xml:space="preserve">
 		<value>Enable address suggestions</value>

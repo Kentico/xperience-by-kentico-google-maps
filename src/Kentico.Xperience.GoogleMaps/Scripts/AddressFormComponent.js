@@ -2,7 +2,7 @@
     inputId,
     dropdownId,
     logoItemId,
-    supportedCountries,
+    supportedCountry,
     suggestionsLanguage,
     currentLocationButtonLabel,
     enableCurrentLocationSuggestions,
@@ -98,12 +98,11 @@
 
     function getSuggestions() {
         const autocompleteService = new google.maps.places.AutocompleteService();
-        const supportedCountriesList = supportedCountries.split(',').map((c) => c.trim());
 
         autocompleteService.getPlacePredictions(
             {
                 input: input.value,
-                componentRestrictions: supportedCountries ? { country: supportedCountriesList } : undefined,
+                componentRestrictions: supportedCountry ? { country: supportedCountry } : undefined,
                 types: !enableCompanyNames ? ['address'] : undefined,
                 language: suggestionsLanguage
             },

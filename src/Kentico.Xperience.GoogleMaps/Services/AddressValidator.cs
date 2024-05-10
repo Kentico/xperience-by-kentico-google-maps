@@ -26,14 +26,14 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         ///<inheritdoc/>
-        public async Task<AddressValidatorResult> Validate(string value, string? supportedCountries = null)
+        public async Task<AddressValidatorResult> Validate(string value, string? supportedCountry = null)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 return GetValidationResult(false);
             }
 
-            var validateAddressResponse = await SendValidateAddressRequest(value, supportedCountries);
+            var validateAddressResponse = await SendValidateAddressRequest(value, supportedCountry);
             if (validateAddressResponse?.Result?.Address is not null
                 && IsAddressValid(validateAddressResponse))
             {
@@ -49,14 +49,14 @@ namespace Kentico.Xperience.GoogleMaps
         }
 
 
-        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value, string? supportedCountries)
+        private async Task<AddressValidationResponse?> SendValidateAddressRequest(string value, string? supportedCountry)
         {
             var validateAddressRequestData = new AddressValidationRequestData()
             {
                 Address = new AddressValidationRequestDataAddress()
                 {
                     AddressLines = new List<string> { value },
-                    RegionCode = supportedCountries
+                    RegionCode = supportedCountry
                 }
             };
             string url = string.Format(GoogleMapsConstants.VALIDATION_API_URL, options.Value.APIKey);

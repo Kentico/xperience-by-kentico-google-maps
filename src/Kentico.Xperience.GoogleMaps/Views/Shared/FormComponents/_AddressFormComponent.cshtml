@@ -10,7 +10,7 @@
     var dropdownId = "dropdown" + Html.IdFor(m => m.Address);
     var logoItemId = "logoItem" + Html.IdFor(m => m.Address);
 
-    var supportedCountries = Model.Properties.SupportedCountries;
+    var supportedCountry = Model.Properties.SupportedCountry;
     var suggestionsLanguage = Model.Properties.SuggestionsLanguage;
     var currentLocationButtonLabel = Model.CurrentLocationButtonLabel;
 
@@ -30,7 +30,7 @@
                     '@inputId',
                     '@dropdownId',
                     '@logoItemId',
-                    '@supportedCountries',
+                    '@supportedCountry',
                     '@suggestionsLanguage',
                     '@currentLocationButtonLabel',
                     @enableCurrentLocationSuggestions,
@@ -42,7 +42,7 @@
                 '@inputId',
                 '@dropdownId',
                 '@logoItemId',
-                '@supportedCountries',
+                '@supportedCountry',
                 '@suggestionsLanguage',
                 '@currentLocationButtonLabel',
                 @enableCurrentLocationSuggestions,

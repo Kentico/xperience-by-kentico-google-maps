@@ -62,13 +62,13 @@ namespace Kentico.Xperience.GoogleMaps
 
 
         /// <summary>
-        /// Gets or sets the supported countries for the address form component.
+        /// Gets or sets the supported country for the address form component.
         /// </summary>
-        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountries.label$}",
-            ExplanationText = "{$addressformcomponent.properties.supportedcountries.explanationtext$}",
+        [TextInputComponent(Label = "{$addressformcomponent.properties.supportedcountry.label$}",
+            ExplanationText = "{$addressformcomponent.properties.supportedcountry.explanationtext$}",
             ExplanationTextAsHtml = true,
             Order = 6)]
-        public string SupportedCountries { get; set; } = string.Empty;
+        public string SupportedCountry { get; set; } = string.Empty;
 
 
         /// <summary>
