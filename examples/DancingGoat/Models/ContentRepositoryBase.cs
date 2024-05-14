@@ -66,10 +66,7 @@ namespace DancingGoat.Models
                 throw new ArgumentNullException(nameof(cacheDependenciesFunc));
             }
 
-            if (queryOptions == null)
-            {
-                queryOptions = new ContentQueryExecutionOptions();
-            }
+            queryOptions ??= new ContentQueryExecutionOptions();
 
             return GetCachedQueryResultInternal(queryBuilder, queryOptions, cacheSettings, cacheDependenciesFunc, cancellationToken);
         }
