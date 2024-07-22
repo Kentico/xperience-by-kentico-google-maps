@@ -23,11 +23,9 @@ Xperience by Kentico Google Maps integration allows users to add an address inpu
 
 ## Package Installation
 
-Add the package to your application using the .NET CLI. Run the following command from the root of your Xperience project.
+This integration is not yet distributed as a NuGet package.
 
-```powershell
-dotnet add package Kentico.Xperience.GoogleMaps
-```
+You can add it to your project by cloning the repository and referencing the `src/Kentico.Xperience.GoogleMaps/Kentico.Xperience.GoogleMaps.csproj` project in your solution
 
 ## Quick Start
 
@@ -46,13 +44,7 @@ The integration uses Google Cloud console APIs, which must be configured togethe
 
 ### Integration Setup
 
-1. Add the `Kentico.Xperience.GoogleMaps` NuGet package to your Xperience project.
-
-   ```powershell
-   dotnet add package Kentico.Xperience.GoogleMaps
-   ```
-
-2. In `Program.cs`, call the `AddXperienceGoogleMaps` method with the `builder.Configuration` parameter when registering services into the application's service container. The method must be called after `AddKentico`.
+1. In `Program.cs`, call the `AddXperienceGoogleMaps` method with the `builder.Configuration` parameter when registering services into the application's service container. The method must be called after `AddKentico`.
 
    ```csharp
 	WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -60,7 +52,7 @@ The integration uses Google Cloud console APIs, which must be configured togethe
 	builder.Services.AddXperienceGoogleMaps(builder.Configuration);
 	```
 
-3. Add the following configuration keys to your application's configuration providers (`appsettings.json` by default). Use the API you generated for your Google Cloud console project in the previous steps.
+1. Add the following configuration keys to your application's configuration providers (`appsettings.json` by default). Use the API you generated for your Google Cloud console project in the previous steps.
 
 	```json
 	"CMSXperienceGoogleMaps": {
@@ -68,14 +60,14 @@ The integration uses Google Cloud console APIs, which must be configured togethe
 	}
 	```
 
-4. The integration provides a `<google-maps />` Razor [Tag Helper](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-8.0) that includes the scripts and styles necessary for the integration to function. Include the Tag Helper to a suitable location in your Razor view hierarchy using the `@addTagHelper` directive. Add the Tag Helper to your top-level `_ViewImports.cshtml` file to make it available everywhere.
+1. The integration provides a `<google-maps />` Razor [Tag Helper](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-8.0) that includes the scripts and styles necessary for the integration to function. Include the Tag Helper to a suitable location in your Razor view hierarchy using the `@addTagHelper` directive. Add the Tag Helper to your top-level `_ViewImports.cshtml` file to make it available everywhere.
 
 	```csharp
 	@using Kentico.Xperience.GoogleMaps
 	@addTagHelper *, Kentico.Xperience.GoogleMaps
 	```
 
-5. Place the `<google-maps />` Tag Helper in the `<head>` tag of your page's HTML structure as defined by your Razor layout hierarchy. The Tag Helper must be placed everywhere where forms that use the address autocomplete form component are rendered.
+1. Place the `<google-maps />` Tag Helper in the `<head>` tag of your page's HTML structure as defined by your Razor layout hierarchy. The Tag Helper must be placed everywhere where forms that use the address autocomplete form component are rendered.
 
 	```csharp
 	<google-maps />
