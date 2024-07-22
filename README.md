@@ -14,7 +14,7 @@ Xperience by Kentico Google Maps integration allows users to add an address inpu
 
 | Xperience Version | Library Version |
 | ----------------- | --------------- |
-| >= 29.0.0         | 1.0.0           |
+| >= 29.0.3         | 1.0.0           |
 
 ### Dependencies
 
@@ -36,15 +36,12 @@ The integration uses Google Cloud console APIs, which must be configured togethe
 ### Google Cloud Setup
 
 1. Sign in to [Google Cloud console](https://console.cloud.google.com/). You will need to create a Google account if you don't already have one.
-
 2. [Create](https://developers.google.com/workspace/guides/create-project) a new Google Cloud project.
- 
 3. [Enable](https://cloud.google.com/endpoints/docs/openapi/enable-api) the following APIs: 
-- [Geocoding API](https://console.cloud.google.com/apis/library/geocoding-backend.googleapis.com)
-- [Places API](https://console.cloud.google.com/apis/library/places-backend.googleapis.com)
-- [Maps API](https://console.cloud.google.com/apis/library/maps-backend.googleapis.com)
-- [Address Validation API](https://console.cloud.google.com/apis/library/addressvalidation.googleapis.com)
-
+    - [Geocoding API](https://console.cloud.google.com/apis/library/geocoding-backend.googleapis.com)
+    - [Places API](https://console.cloud.google.com/apis/library/places-backend.googleapis.com)
+    - [Maps API](https://console.cloud.google.com/apis/library/maps-backend.googleapis.com)
+    - [Address Validation API](https://console.cloud.google.com/apis/library/addressvalidation.googleapis.com)
 4. [Create](https://cloud.google.com/docs/authentication/api-keys#create) an API key for your project. You will later use this key when configuring the Google Maps integration in your Xperience project.
 
 ### Integration Setup
