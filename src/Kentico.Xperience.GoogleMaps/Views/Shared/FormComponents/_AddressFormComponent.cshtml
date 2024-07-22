@@ -1,0 +1,54 @@
+﻿﻿@using Kentico.Forms.Web.Mvc
+@using Kentico.Web.Mvc
+@using Kentico.Xperience.GoogleMaps
+
+@model AddressFormComponent
+
+@{
+    var htmlAttributes = ViewData.Kentico().GetEditorHtmlAttributes();
+    htmlAttributes.Add("autocomplete", "off");
+    var inputId = Html.IdFor(m => m.Address);
+    var dropdownId = "dropdown" + Html.IdFor(m => m.Address);
+    var logoItemId = "logoItem" + Html.IdFor(m => m.Address);
+
+    var supportedCountry = Model.Properties.SupportedCountry;
+    var suggestionsLanguage = Model.Properties.SuggestionsLanguage;
+    var currentLocationButtonLabel = Model.CurrentLocationButtonLabel;
+
+    var enableSuggestions = Model.Properties.EnableSuggestions ? "true" : "false";
+    var enableCompanyNames = Model.Properties.EnableCompanyNames ? "true" : "false";
+    var enableCurrentLocationSuggestions = Model.Properties.EnableCurrentLocationSuggestions ? "true" : "false";
+}
+
+@Html.TextBoxFor(m => m.Address, htmlAttributes)
+<div id="@dropdownId" class="xperience-address-dropdown" style="display: none;"></div>
+
+<script>
+    if (@enableSuggestions) {
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", () =>
+                initializeAutocomplete(
+                    '@inputId',
+                    '@dropdownId',
+                    '@logoItemId',
+                    '@supportedCountry',
+                    '@suggestionsLanguage',
+                    '@currentLocationButtonLabel',
+                    @enableCurrentLocationSuggestions,
+                    @enableCompanyNames
+                )
+            );
+        } else {
+            initializeAutocomplete(
+                '@inputId',
+                '@dropdownId',
+                '@logoItemId',
+                '@supportedCountry',
+                '@suggestionsLanguage',
+                '@currentLocationButtonLabel',
+                @enableCurrentLocationSuggestions,
+                @enableCompanyNames
+            );
+        }
+    }
+</script>
